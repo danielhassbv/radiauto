@@ -1,0 +1,48 @@
+.produto {
+    transition: all 0.3s ease-in-out;
+    cursor: default;
+}
+
+.produto-img-wrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+.produto-hover {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.produto:hover .produto-hover {
+    opacity: 1;
+}
+
+.card-img-top {
+    transition: transform 0.3s ease-in-out;
+}
+
+.produto:hover .card-img-top {
+    transform: scale(1.05);
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    background-size: 100% 100%;
+}
+
+/* Responsivo: 1 produto por slide no mobile */
+@media (max-width: 768px) {
+    .row-cols-md-4>.col {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}

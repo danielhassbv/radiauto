@@ -1,0 +1,11 @@
+.carousel img {
+    object-fit: cover;
+    max-height: 100%;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    background-size: 100% 100%;
+}

@@ -1,0 +1,96 @@
+<!-- TOPO -->
+<div class="header-topo bg-danger text-white py-2 px-3 d-flex justify-content-center align-items-center">
+    <div class="d-flex align-items-center" style="font-size: 0.9rem;">
+        <i class="fas fa-map-marked-alt me-2"></i>
+        ENTREGAMOS PARA TODO O BRASIL
+    </div>
+</div>
+
+<!-- HEADER PRINCIPAL -->
+<header class="header-principal container-fluid py-3 px-4">
+    <!-- LINHA SUPERIOR MOBILE -->
+    <div class="d-flex d-lg-none justify-content-between align-items-center">
+        <!-- HAMBÚRGUER -->
+        <button class="btn text-danger fs-2 border-0" (click)="toggleMenu()">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <!-- LOGO -->
+        <img src="assets/logo.png" alt="Logo" class="logo mx-auto d-block" height="50" />
+
+        <!-- CARRINHO -->
+        <div class="position-relative text-end">
+            <i class="fas fa-shopping-cart fs-4 text-danger"></i>
+            <div class="text-danger small">0 ITENS</div>
+        </div>
+    </div>
+
+    <!-- LINHA SUPERIOR DESKTOP -->
+    <div class="d-none d-lg-flex justify-content-between align-items-center">
+        <!-- LOGO -->
+        <img src="assets/logo.png" alt="Logo" class="logo" height="90" />
+
+        <!-- BARRA DE BUSCA -->
+        <div class="search-box d-flex flex-grow-1 mx-4">
+            <input type="text" class="form-control"
+                placeholder="Procure pelo nome, código de montadora, código do fabricante ou veículo" />
+            <button class="btn btn-light border">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+
+        <!-- CONTATO + ÍCONES -->
+        <div class="d-flex align-items-center gap-3">
+            <div class="text-success small text-end">
+                <div><i class="fas fa-phone-alt me-1"></i> (11) 2206-7600</div>
+                <div><i class="fab fa-whatsapp me-1"></i> Chamar no Whatsapp</div>
+            </div>
+            <i class="fas fa-heart fs-4 text-danger" title="Favoritos"></i>
+            <i class="fas fa-user-circle fs-4 text-primary" title="Entrar"></i>
+            <div class="position-relative">
+                <i class="fas fa-shopping-cart fs-4 text-danger"></i>
+                <span
+                    class="badge bg-danger position-absolute top-0 start-100 translate-middle px-1 rounded-pill">0</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- BARRA DE BUSCA MOBILE -->
+    <div class="search-box mt-3 d-lg-none">
+        <div class="d-flex w-100">
+            <input type="text" class="form-control" placeholder="Procure pelo nome, código de montadora…" />
+            <button class="btn btn-light border">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- MENU DE CATEGORIAS (DESKTOP) -->
+<nav class="menu-categorias bg-primary text-white d-none d-lg-flex justify-content-center py-2 px-3">
+    <div class="categoria"><i class="fas fa-temperature-low me-1"></i>ARREFECIMENTO</div>
+    <div class="categoria"><i class="fas fa-snowflake me-1"></i>AR CONDICIONADO</div>
+    <div class="categoria"><i class="fas fa-th-large me-1"></i>RADIADORES</div>
+    <div class="categoria"><i class="fas fa-tint me-1"></i>CONDENSADORES</div>
+    <div class="categoria"><i class="fas fa-cogs me-1"></i>COMPRESSORES</div>
+    <div class="categoria"><i class="fas fa-layer-group me-1"></i>MARCAS</div>
+    <div class="categoria destaque bg-danger px-3 py-1 rounded">
+        <i class="fas fa-gas-pump me-1"></i>OFERTAS
+    </div>
+</nav>
+
+<!-- MENU MOBILE (DRAWER) -->
+<div class="menu-mobile" [class.aberto]="menuAberto" (click)="toggleMenu()">
+    <div class="menu-mobile-content" (click)="$event.stopPropagation()">
+        <button class="btn btn-outline-danger w-100 mb-3" (click)="toggleMenu()">
+            Fechar <i class="fas fa-times ms-1"></i>
+        </button>
+        <div class="px-3 py-2 border-bottom">ARREFECIMENTO</div>
+        <div class="px-3 py-2 border-bottom">AR CONDICIONADO</div>
+        <div class="px-3 py-2 border-bottom">RADIADORES</div>
+        <div class="px-3 py-2 border-bottom">CONDENSADORES</div>
+        <div class="px-3 py-2 border-bottom">COMPRESSORES</div>
+        <div class="px-3 py-2 border-bottom">MARCAS</div>
+        <div class="px-3 py-2 text-danger fw-bold">OFERTAS</div>
+    </div>
+</div>
