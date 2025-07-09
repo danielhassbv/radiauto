@@ -1,0 +1,70 @@
+.marca-title-container {
+    background-color: #041f3a;
+}
+
+.marca-title {
+    color: white;
+    font-size: 2rem;
+    padding-bottom: 5px;
+}
+
+.marca-item {
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ddd;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+    border-radius: 8px;
+    background-color: white;
+    cursor: pointer;
+    margin: 20px 0px;
+}
+
+.marca-item img {
+    max-height: 80px;
+    object-fit: contain;
+    max-width: 100%;
+}
+
+.marca-item:hover {
+    transform: scale(1.05);
+    border-color: #ff6d00;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: auto;
+    height: auto;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 0.3rem;
+    z-index: 1;
+}
+
+.carousel-item {
+    transition: transform 0.6s ease-in-out;
+}
+
+
+/* Estilo do ícone (visual) */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    width: 2rem;
+    height: 2rem;
+    background-size: 100% 70%;
+    background-color: #ff6d00;
+    border-radius: 20%;
+}
+
+/* Responsividade */
+@media (max-width: 576px) {
+    .marca-item {
+        height: 60px;
+    }
+
+    .marca-item img {
+        max-height: 30px;
+    }
+
+}

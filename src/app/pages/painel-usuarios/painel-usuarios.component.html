@@ -1,0 +1,21 @@
+<div class="container py-4">
+    <h3>Usuários Cadastrados</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Criado em</th>
+                <th>Ação</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let u of usuarios">
+                <td>{{ u.email }}</td>
+                <td>{{ u.criadoEm?.toDate() | date:'short' }}</td>
+                <td>
+                    <button class="btn btn-sm btn-danger" (click)="remover(u.uid)">Remover</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

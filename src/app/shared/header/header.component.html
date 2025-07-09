@@ -1,5 +1,5 @@
 <!-- TOPO -->
-<div class="header-topo bg-danger text-white py-2 px-3 d-flex justify-content-center align-items-center">
+<div class="header-topo text-white py-2 px-3 d-flex justify-content-center align-items-center">
     <div class="d-flex align-items-center" style="font-size: 0.9rem;">
         <i class="fas fa-map-marked-alt me-2"></i>
         ENTREGAMOS PARA TODO O BRASIL
@@ -8,20 +8,41 @@
 
 <!-- HEADER PRINCIPAL -->
 <header class="header-principal container-fluid py-3 px-4">
+
     <!-- LINHA SUPERIOR MOBILE -->
     <div class="d-flex d-lg-none justify-content-between align-items-center">
         <!-- HAMBÚRGUER -->
-        <button class="btn text-danger fs-2 border-0" (click)="toggleMenu()">
+        <button class="btn text-danger fs-2 border-0" (click)="toggleMobileMenu()">
             <i class="fas fa-bars"></i>
         </button>
 
         <!-- LOGO -->
         <img src="assets/logo.png" alt="Logo" class="logo mx-auto d-block" height="50" />
 
-        <!-- CARRINHO -->
-        <div class="position-relative text-end">
-            <i class="fas fa-shopping-cart fs-4 text-danger"></i>
-            <div class="text-danger small">0 ITENS</div>
+        <!-- ÍCONES MOBILE -->
+        <div class="d-flex align-items-center gap-3">
+            <!-- Login Mobile -->
+            <div class="position-relative">
+                <i class="fas fa-user-circle fs-4 text-primary" (click)="toggleLoginDropdown()"
+                    style="cursor: pointer;"></i>
+                <div *ngIf="dropdownLoginAberto" class="position-absolute end-0 mt-2 bg-white shadow rounded p-2"
+                    style="z-index: 1000;">
+                    <ng-container *ngIf="!auth.isLogado(); else logadoTplMobile">
+                        <button class="btn btn-sm w-100 text-start" (click)="goToLogin()">Login</button>
+                        <button class="btn btn-sm w-100 text-start" (click)="goToRegister()">Registrar</button>
+                    </ng-container>
+                    <ng-template #logadoTplMobile>
+                        <button class="btn btn-sm w-100 text-start" (click)="goToProfile()">Perfil</button>
+                        <button class="btn btn-sm w-100 text-start text-danger" (click)="logout()">Sair</button>
+                    </ng-template>
+                </div>
+            </div>
+
+            <!-- Carrinho -->
+            <div class="position-relative text-end">
+                <i class="fas fa-shopping-cart fs-4 text-danger"></i>
+                <div class="text-danger small">0 ITENS</div>
+            </div>
         </div>
     </div>
 
@@ -41,12 +62,34 @@
 
         <!-- CONTATO + ÍCONES -->
         <div class="d-flex align-items-center gap-3">
+            <!-- Telefone e WhatsApp -->
             <div class="text-success small text-end">
                 <div><i class="fas fa-phone-alt me-1"></i> (11) 2206-7600</div>
                 <div><i class="fab fa-whatsapp me-1"></i> Chamar no Whatsapp</div>
             </div>
+
+            <!-- Favoritos -->
             <i class="fas fa-heart fs-4 text-danger" title="Favoritos"></i>
-            <i class="fas fa-user-circle fs-4 text-primary" title="Entrar"></i>
+
+            <!-- Login Desktop -->
+            <div class="position-relative">
+                <i class="fas fa-user-circle fs-4 text-primary" style="cursor: pointer;" (click)="toggleLoginDropdown()"
+                    title="Conta"></i>
+
+                <div *ngIf="dropdownLoginAberto" class="position-absolute bg-white shadow rounded p-2"
+                    style="top: 35px; right: 0; z-index: 1000;">
+                    <ng-container *ngIf="!auth.isLogado(); else logadoTpl">
+                        <button class="btn btn-sm w-100 text-start" (click)="goToLogin()">Login</button>
+                        <button class="btn btn-sm w-100 text-start" (click)="goToRegister()">Registrar</button>
+                    </ng-container>
+                    <ng-template #logadoTpl>
+                        <button class="btn btn-sm w-100 text-start" (click)="goToProfile()">Perfil</button>
+                        <button class="btn btn-sm w-100 text-start text-danger" (click)="logout()">Sair</button>
+                    </ng-template>
+                </div>
+            </div>
+
+            <!-- Carrinho -->
             <div class="position-relative">
                 <i class="fas fa-shopping-cart fs-4 text-danger"></i>
                 <span
@@ -80,9 +123,9 @@
 </nav>
 
 <!-- MENU MOBILE (DRAWER) -->
-<div class="menu-mobile" [class.aberto]="menuAberto" (click)="toggleMenu()">
+<div class="menu-mobile" [class.aberto]="menuMobileAberto" (click)="toggleMobileMenu()">
     <div class="menu-mobile-content" (click)="$event.stopPropagation()">
-        <button class="btn btn-outline-danger w-100 mb-3" (click)="toggleMenu()">
+        <button class="btn btn-outline-danger w-100 mb-3" (click)="toggleMobileMenu()">
             Fechar <i class="fas fa-times ms-1"></i>
         </button>
         <div class="px-3 py-2 border-bottom">ARREFECIMENTO</div>

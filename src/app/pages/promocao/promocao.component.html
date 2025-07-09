@@ -1,187 +1,119 @@
-<!-- Linha com ícones informativos -->
+<!-- Ícones informativos -->
 <div class="container py-4 border-bottom">
-    <div class="row text-center text-md-start">
-        <div class="col-6 col-md">
-            <i class="fas fa-credit-card text-danger me-2"></i>
-            <span>PAGAMENTO<br>
-                <p>Em até 6x no cartão sem juros</p>
+    <div class="row text-center">
+        <div class="col-3">
+            <i class="promocao-icon fas fa-credit-card me-2"></i><br />
+            <span>Pagamento<br />
+                <p class="promocao-text">Em até 6x no cartão sem juros</p>
             </span>
         </div>
-        <div class="col-6 col-md">
-            <i class="fas fa-map-marked-alt text-danger me-2"></i>
-            <span>ENTREGA RÁPIDA<br>
-                <p>Entregamos em todo o Brasil</p>
+        <div class="col-3">
+            <i class="promocao-icon fas fa-map-marked-alt me-2"></i><br />
+            <span>Entregas<br />
+                <p class="promocao-text">Entregamos em todo o Brasil</p>
             </span>
         </div>
-        <div class="col-6 col-md mt-3 mt-md-0">
-            <i class="fas fa-tags text-danger me-2"></i>
-            <span>CLUBE DE VANTAGENS<br>
-                <p>Faça parte</p>
+        <div class="col-3">
+            <i class="promocao-icon fas fa-tags me-2"></i><br />
+            <span>Vantagens<br />
+                <p class="promocao-text">Seja um membro</p>
             </span>
         </div>
-        <div class="col-6 col-md mt-3 mt-md-0">
-            <i class="fas fa-book text-danger me-2"></i>
-            <span>DESDE 1982<br>
-                <p>Mais de 40 nos de experiência</p>
-            </span>
-        </div>
-        <div class="col-12 col-md mt-3 mt-md-0">
-            <i class="fas fa-lock text-danger me-2"></i>
-            <span>COMPRAS 100% SEGURAS<br>
-                <p>Faça suas compras com tranquilidade</p>
+        <div class="col-3">
+            <i class="promocao-icon fas fa-lock me-2"></i><br />
+            <span>100% seguro<br />
+                <p class="promocao-text">Faça suas compras com tranquilidade</p>
             </span>
         </div>
     </div>
 </div>
-<!-- Título da seção -->
-<div class="container pt-4">
-    <h4 class="fw-bold border-start border-4 border-danger ps-2 mb-4">Promoção</h4>
+
+<div class="container-fluid promocao-title-container py-1">
+    <div class="container">
+        <h4 class="promocao-title fw-bold m-0">Promoção</h4>
+    </div>
 </div>
-
-<!-- Carrossel de produtos -->
-<div class="container position-relative">
-    <div id="carouselProdutos" class="carousel slide" data-bs-ride="carousel">
+<div class="container position-relative p-5 ">
+    <div #carouselRef id="carouselProdutos" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
         <div class="carousel-inner">
+            <div *ngFor="let grupo of gruposDeProdutos; let i = index" class="carousel-item" [class.active]="i === 0">
+                <div class="d-flex justify-content-center flex-wrap gap-3">
+                    <div *ngFor="let p of grupo" class="card produto text-center border-0"
+                        [ngStyle]="{ flex: '1 1 ' + cardWidth + '%', 'max-width': '240px', 'min-width': '180px' }">
+                        <div class="produto-img-wrapper position-relative overflow-hidden">
+                            <img [src]="p.imagem" class="card-img-top" alt="Produto" />
 
-            <!-- Slide Produto 1 -->
-            <div class="carousel-item active">
-                <div class="d-flex flex-column flex-md-row justify-content-center gap-3">
-                    <div class="card produto text-center border-0" style="width: 100%; max-width: 240px; margin: auto;">
-                        <div class="produto-img-wrapper">
-                            <img src="assets/product-1.png" class="card-img-top" alt="Produto 1">
-                            <div class="produto-hover">
-                                <button class="btn btn-outline-secondary btn-sm me-1" data-bs-toggle="modal"
-                                    data-bs-target="#modalProduto1">ESPIAR</button>
-                                <button class="btn btn-success btn-sm">ADICIONAR AO CARRINHO</button>
+                            <!-- Botão para mobile -->
+                            <button class="btn btn-light btn-sm position-absolute bottom-0 end-0 m-2 d-sm-none"
+                                (click)="p.mostrarAcoes = !p.mostrarAcoes">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </button>
+
+                            <!-- Hover + mobile action box -->
+                            <div class="produto-hover" [class.mostrar]="p.mostrarAcoes === true">
+                                <button class="btn-espiar" data-bs-toggle="modal"
+                                    [attr.data-bs-target]="'#modal' + p.id">Ver produto</button>
+                                <button class="btn-carrinho">ADICIONAR AO CARRINHO</button>
                             </div>
+
                         </div>
+
                         <div class="card-body p-2">
-                            <h6 class="card-title text-uppercase small fw-bold">Água Desmineralizada 1L - Procooler</h6>
-                            <p class="text-muted text-decoration-line-through mb-1">De R$ 9,99</p>
-                            <p class="fw-bold text-primary mb-1">Por R$ 7,49</p>
-                            <small class="text-muted">Ou em até 6x de R$ 1,25 sem juros</small>
+                            <h6 class="card-title text-uppercase small fw-bold">{{ p.nome }}</h6>
+                            <p *ngIf="p.preco" class="text-muted text-decoration-line-through mb-1">De {{ p.preco + 2 |
+                                currency:'BRL' }}</p>
+                            <p class="fw-bold text-primary mb-1">{{ p.preco | currency:'BRL' }}</p>
+                            <small class="text-muted">Ou em até 6x sem juros</small>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!-- Slide Produto 2 -->
-            <div class="carousel-item">
-                <div class="d-flex flex-column flex-md-row justify-content-center gap-3">
-                    <div class="card produto text-center border-0" style="width: 100%; max-width: 240px; margin: auto;">
-                        <div class="produto-img-wrapper">
-                            <img src="assets/product-2.png" class="card-img-top" alt="Produto 2">
-                            <div class="produto-hover">
-                                <button class="btn btn-outline-secondary btn-sm me-1" data-bs-toggle="modal"
-                                    data-bs-target="#modalProduto2">ESPIAR</button>
-                                <button class="btn btn-success btn-sm">ADICIONAR AO CARRINHO</button>
-                            </div>
-                        </div>
-                        <div class="card-body p-2">
-                            <h6 class="card-title text-uppercase small fw-bold">Aditivo 1L Verde - Procooler</h6>
-                            <p class="text-muted text-decoration-line-through mb-1">De R$ 14,99</p>
-                            <p class="fw-bold text-primary mb-1">Por R$ 11,24</p>
-                            <small class="text-muted">Ou em até 6x de R$ 1,87 sem juros</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         </div>
 
         <!-- Controles -->
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselProdutos" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon bg-dark rounded-circle" aria-hidden="true"></span>
+            <span class="carousel-control-prev-icon"></span>
             <span class="visually-hidden">Anterior</span>
         </button>
         <button class="carousel-control-next" type="button" data-bs-target="#carouselProdutos" data-bs-slide="next">
-            <span class="carousel-control-next-icon bg-dark rounded-circle" aria-hidden="true"></span>
+            <span class="carousel-control-next-icon"></span>
             <span class="visually-hidden">Próximo</span>
         </button>
     </div>
 </div>
 
-<!-- MODAL Produto 1 -->
-<div class="modal fade" id="modalProduto1" tabindex="-1" aria-labelledby="modalProduto1Label" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-body d-flex flex-column flex-md-row gap-3 p-4">
-                <div class="col-md-4 text-center">
-                    <img src="assets/product-1.png" class="img-fluid" alt="Produto">
-                </div>
-                <div class="col-md-8">
-                    <h5 class="fw-bold">Água Desmineralizada 1L - Procooler</h5>
-                    <p class="text-decoration-line-through text-muted mb-1">De R$ 9,99</p>
-                    <h4 class="text-primary fw-bold">R$ 7,49</h4>
-                    <p class="text-muted mb-2">ou em até <strong>6x de R$ 1,25</strong></p>
-
-                    <div class="row mb-3">
-                        <div class="col-6">
-                            <small class="text-muted">Código Comercial</small>
-                            <div class="bg-dark text-white px-2 py-1">PC000001</div>
-                        </div>
-                        <div class="col-6">
-                            <small class="text-muted">Marca</small>
-                            <div class="bg-dark text-white px-2 py-1">PROCOOLER</div>
-                        </div>
+<!-- Modais -->
+<div *ngFor="let p of produtos">
+    <div class="modal fade" [id]="'modal' + p.id" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-body d-flex flex-column flex-md-row gap-4 p-4">
+                    <!-- Imagem -->
+                    <div class="col-md-5 text-center">
+                        <img [src]="p.imagem" class="img-fluid rounded shadow" alt="Produto" />
                     </div>
 
-                    <div class="d-flex align-items-center mb-3">
-                        <span class="me-2">Quantidade:</span>
-                        <div class="input-group" style="width: 100px;">
-                            <button class="btn btn-outline-secondary btn-sm">-</button>
-                            <input type="text" class="form-control text-center form-control-sm" value="1">
-                            <button class="btn btn-outline-secondary btn-sm">+</button>
+                    <!-- Informações -->
+                    <div class="col-md-7 d-flex flex-column justify-content-between">
+                        <div>
+                            <h4 class="fw-bold text-uppercase">{{ p.nome }}</h4>
+
+                            <p *ngIf="p.preco" class="text-muted text-decoration-line-through mb-1">
+                                De {{ p.preco + 2 | currency: 'BRL' }}
+                            </p>
+
+                            <h3 class="text-primary fw-bold mb-3">
+                                {{ p.preco | currency: 'BRL' }}
+                            </h3>
+
+                            <p class="text-secondary small">{{ p.descricao }}</p>
                         </div>
-                    </div>
 
-                    <div class="d-flex gap-2">
-                        <button class="btn btn-success w-50">COMPRAR</button>
-                        <button class="btn btn-primary w-50">VER MAIS DETALHES</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- MODAL Produto 2 -->
-<div class="modal fade" id="modalProduto2" tabindex="-1" aria-labelledby="modalProduto2Label" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-body d-flex flex-column flex-md-row gap-3 p-4">
-                <div class="col-md-4 text-center">
-                    <img src="assets/product-2.png" class="img-fluid" alt="Produto">
-                </div>
-                <div class="col-md-8">
-                    <h5 class="fw-bold">Aditivo Radiador 1L Verde - Procooler</h5>
-                    <p class="text-decoration-line-through text-muted mb-1">De R$ 14,99</p>
-                    <h4 class="text-primary fw-bold">R$ 11,24</h4>
-                    <p class="text-muted mb-2">ou em até <strong>6x de R$ 1,87</strong></p>
-
-                    <div class="row mb-3">
-                        <div class="col-6">
-                            <small class="text-muted">Código Comercial</small>
-                            <div class="bg-dark text-white px-2 py-1">PC000002</div>
+                        <!-- Ações -->
+                        <div class="d-flex gap-3 mt-4 px-4">
+                            <button class="btn btn-success w-50">COMPRAR</button>
+                            <button class="btn btn-outline-primary w-50">VER MAIS DETALHES</button>
                         </div>
-                        <div class="col-6">
-                            <small class="text-muted">Marca</small>
-                            <div class="bg-dark text-white px-2 py-1">PROCOOLER</div>
-                        </div>
-                    </div>
-
-                    <div class="d-flex align-items-center mb-3">
-                        <span class="me-2">Quantidade:</span>
-                        <div class="input-group" style="width: 100px;">
-                            <button class="btn btn-outline-secondary btn-sm">-</button>
-                            <input type="text" class="form-control text-center form-control-sm" value="1">
-                            <button class="btn btn-outline-secondary btn-sm">+</button>
-                        </div>
-                    </div>
-
-                    <div class="d-flex gap-2">
-                        <button class="btn btn-success w-50">COMPRAR</button>
-                        <button class="btn btn-primary w-50">VER MAIS DETALHES</button>
                     </div>
                 </div>
             </div>

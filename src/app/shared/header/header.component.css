@@ -22,8 +22,16 @@ i[title],
     border-radius: 0 0.25rem 0.25rem 0;
 }
 
+.header-topo {
+    background-color: #ff6d00;
+}
+
 .header-principal .badge {
     font-size: 0.6rem;
+}
+
+.menu-categorias {
+    background-color: #041f3a !important;
 }
 
 .menu-categorias .categoria {

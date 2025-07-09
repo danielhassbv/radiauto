@@ -1,6 +1,52 @@
+.promocao-icon {
+    font-size: 1.8rem;
+    color: #333;
+    color: #ff6d00;
+    margin-bottom: 10px;
+}
+
+span {
+    font-weight: 600;
+}
+
+.promocao-text {
+    font-weight: 400;
+    font-size: 1rem;
+    margin: 0;
+}
+
+/* Impede quebra de linha no celular */
+@media (max-width: 576px) {
+    .row>.col-3 {
+        flex: 0 0 25%;
+        max-width: 25%;
+        padding: 10px 5px;
+    }
+
+    .promocao-text {
+        font-size: 0.8rem;
+    }
+}
+
+.promocao-title-container {
+    background-color: #e65c00;
+}
+
+.promocao-title {
+    color: white;
+    font-size: 2rem;
+    padding-bottom: 5px;
+}
+
 .produto {
     transition: all 0.3s ease-in-out;
     cursor: default;
+}
+
+.produto-img-wrapper img {
+    width: 100%;
+    display: block;
+    height: auto;
 }
 
 .produto-img-wrapper {
@@ -8,41 +54,158 @@
     overflow: hidden;
 }
 
-.produto-hover {
-    position: absolute;
-    bottom: 10px;
-    left: 0;
-    width: 100%;
-    opacity: 0;
-    display: flex;
-    justify-content: center;
-    gap: 5px;
-    transition: opacity 0.3s ease-in-out;
+.produto-img-wrapper img {
+    transition: transform 0.4s ease;
+    cursor: pointer;
 }
 
-.produto:hover .produto-hover {
+/* Efeito de zoom ao passar o mouse */
+.produto-img-wrapper:hover img {
+    transform: scale(1.08);
+    cursor: pointer;
+}
+
+
+/* Desktop hover */
+.produto-img-wrapper:hover .produto-hover {
     opacity: 1;
+    visibility: visible;
 }
 
-.card-img-top {
-    transition: transform 0.3s ease-in-out;
+/* Mobile via classe Angular */
+.produto-hover.mostrar {
+    opacity: 1 !important;
+    visibility: visible !important;
 }
 
-.produto:hover .card-img-top {
-    transform: scale(1.05);
+/* Botão mobile só aparece em telas pequenas */
+@media (min-width: 576px) {
+    .btn-toggle-mobile {
+        display: none !important;
+    }
 }
 
+/* Alinhamento lado a lado */
+.produto-hover {
+    display: flex;
+    flex-direction: row;
+    /* <- Importante */
+    justify-content: center;
+    align-items: flex-end;
+    gap: 0.5rem;
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+    z-index: 1;
+}
+
+.produto-img-wrapper:hover .produto-hover,
+.produto-hover.mostrar {
+    opacity: 1;
+    visibility: visible;
+}
+
+.btn-espiar,
+.btn-carrinho {
+    min-height: 50px;
+    max-width: 130px;
+    /* Mesma largura */
+    text-align: center;
+}
+
+/* Botão ESPAR */
+.btn-espiar {
+    background-color: #041f3a;
+    color: #fff;
+    padding: 6px 10px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+/* Botão CARRINHO */
+.btn-carrinho {
+    background-color: #ff6d00;
+
+    /* Laranja Radiauto */
+    color: #fff;
+    border: none;
+    padding: 6px 10px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-carrinho:hover {
+    background-color: #e65c00;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: auto;
+    height: auto;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 0.3rem;
+    z-index: 1;
+}
+
+/* Estilo do ícone (visual) */
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
-    width: 2.5rem;
-    height: 2.5rem;
-    background-size: 100% 100%;
+    width: 2rem;
+    height: 2rem;
+    background-size: 100% 70%;
+    background-color: #ff6d00;
+    border-radius: 20%;
 }
 
-/* Responsivo: 1 produto por slide no mobile */
-@media (max-width: 768px) {
-    .row-cols-md-4>.col {
-        flex: 0 0 100%;
-        max-width: 100%;
-    }
+.carousel-item {
+    transition: transform 0.6s ease-in-out;
+}
+
+.modal-body {
+    overflow-x: hidden;
+}
+
+.modal-content {
+    border: none !important;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    border: 2px solid #ff6d00;
+    max-width: 100%;
+    overflow-x: hidden !important;
+}
+
+/* Garante que imagens e colunas respeitem a largura do modal */
+.modal-body img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+
+.modal-dialog-scrollable .modal-content {
+    max-height: 90vh;
+    overflow: hidden;
+}
+
+.modal-body h4 {
+    color: #111;
+    font-weight: bold;
+}
+
+.btn-outline-primary {
+    border-color: #ff6d00;
+    color: #ff6d00;
+}
+
+.btn-outline-primary:hover {
+    background-color: #ff6d00;
+    color: #fff;
 }
