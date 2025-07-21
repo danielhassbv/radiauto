@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 import { CommonModule, registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 import { LOCALE_ID } from '@angular/core';
@@ -6,6 +6,10 @@ import { ProdutoService } from '../../services/produto.service';
 import { Produto } from '../../models/produto.model';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { SyncProdutosComponent } from '../../components/sync-produtos/sync-produtos.component';
+import { Router } from '@angular/router';
+declare var bootstrap: any;
+
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -14,7 +18,7 @@ registerLocaleData(localePt, 'pt-BR');
   templateUrl: './painel-produtos.component.html',
   styleUrls: ['./painel-produtos.component.css'],
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, SyncProdutosComponent],
   providers: [{ provide: LOCALE_ID, useValue: 'pt-BR' }],
 })
 export class PainelProdutosComponent {
@@ -23,9 +27,11 @@ export class PainelProdutosComponent {
   imagemSelecionada: File | null = null;
   previewImagem: string | ArrayBuffer | null = null;
 
-  constructor(private produtoService: ProdutoService) {
+  constructor(private produtoService: ProdutoService, private router: Router) {
     this.atualizarLista();
   }
+
+
 
   editar(p: Produto) {
     this.produto = { ...p };
@@ -46,7 +52,25 @@ export class PainelProdutosComponent {
       modal.show();
     }, 200);
   }
+  abrirCadastroModal() {
+    const modalElement = document.getElementById('modalContainer');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
 
+      this.router.navigate([{ outlets: { modal: ['cadastro-produto'] } }]);
+    }
+  }
+  ngAfterViewInit(): void {
+    const modalElement = document.getElementById('modalContainer');
+
+    if (modalElement) {
+      modalElement.addEventListener('hidden.bs.modal', () => {
+        // Ao fechar o modal, remove a rota nomeada "modal"
+        this.router.navigate([{ outlets: { modal: null } }]);
+      });
+    }
+  }
   async remover(id: string) {
     await this.produtoService.deletar(id);
     this.atualizarLista();

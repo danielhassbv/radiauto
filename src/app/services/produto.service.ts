@@ -1,10 +1,21 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, collectionData, addDoc, deleteDoc, doc, updateDoc } from '@angular/fire/firestore';
-
+import {
+    Firestore,
+    collection,
+    collectionData,
+    addDoc,
+    deleteDoc,
+    doc,
+    updateDoc,
+} from '@angular/fire/firestore';
 import { Produto } from '../models/produto.model';
 import { Observable } from 'rxjs';
-import { Storage, ref, uploadBytes, getDownloadURL } from '@angular/fire/storage';
-
+import {
+    Storage,
+    ref,
+    uploadBytes,
+    getDownloadURL,
+} from '@angular/fire/storage';
 
 @Injectable({ providedIn: 'root' })
 export class ProdutoService {
@@ -18,12 +29,13 @@ export class ProdutoService {
         const caminho = `produtos/${crypto.randomUUID()}_${file.name}`;
         const storageRef = ref(this.storage, caminho);
         const snapshot = await uploadBytes(storageRef, file);
-        return getDownloadURL(snapshot.ref); // ✅ aqui você obtém a URL correta
+        return getDownloadURL(snapshot.ref);
     }
 
-
     getProdutos(): Observable<Produto[]> {
-        return collectionData(this.colecao, { idField: 'id' }) as Observable<Produto[]>;
+        return collectionData(this.colecao, { idField: 'id' }) as Observable<
+            Produto[]
+        >;
     }
 
     adicionar(produto: Produto): Promise<any> {

@@ -1,67 +1,57 @@
-<div class="container py-5">
+<form (ngSubmit)="salvar()" #form="ngForm" enctype="multipart/form-data" class="px-2 px-sm-3 px-md-4 py-2 w-100">
+    <div class="row g-3">
 
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="card shadow">
-                <div class="card-header">
-                    <h4 class="mb-0">Cadastro de Produto - Radiauto</h4>
-                </div>
-                <div class="card-body">
-                    <form (ngSubmit)="salvar()" #form="ngForm" enctype="multipart/form-data">
-                        <div class="mb-3">
-                            <label class="form-label">Nome</label>
-                            <input class="form-control" type="text" required [(ngModel)]="produto.nome" name="nome" />
-                        </div>
+        <div class="col-12 col-md-6">
+            <label class="form-label">Nome</label>
+            <input class="form-control" type="text" required [(ngModel)]="produto.nome" name="nome" />
+        </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Descrição</label>
-                            <textarea class="form-control" rows="2" [(ngModel)]="produto.descricao"
-                                name="descricao"></textarea>
-                        </div>
+        <div class="col-12 col-md-6">
+            <label class="form-label">Marca</label>
+            <input class="form-control" type="text" [(ngModel)]="produto.marca" name="marca" />
+        </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Preço</label>
-                            <input id="preco" class="form-control" type="text" placeholder="R$"
-                                [value]="formatarReal(produto.preco)" (input)="atualizarPreco($event)" />
-                        </div>
+        <div class="col-12">
+            <label class="form-label">Descrição</label>
+            <textarea class="form-control" rows="2" [(ngModel)]="produto.descricao" name="descricao"></textarea>
+        </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Imagem do Produto</label>
-                            <input class="form-control" type="file" accept="image/*"
-                                (change)="selecionarImagem($event)" />
-                            <div *ngIf="previewImagem" class="mt-2 text-center">
-                                <img [src]="previewImagem" class="img-thumbnail" width="150" />
-                            </div>
-                        </div>
+        <div class="col-6">
+            <label class="form-label">Preço</label>
+            <input id="preco" class="form-control" type="text" placeholder="R$" [value]="formatarReal(produto.preco)"
+                (input)="atualizarPreco($event)" />
+        </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Marca</label>
-                            <input class="form-control" type="text" [(ngModel)]="produto.marca" name="marca" />
-                        </div>
+        <div class="col-6">
+            <label class="form-label">Categoria</label>
+            <input class="form-control" type="text" [(ngModel)]="produto.categoria" name="categoria" />
+        </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Categoria</label>
-                            <input class="form-control" type="text" [(ngModel)]="produto.categoria" name="categoria" />
-                        </div>
-
-                        <div class="form-check form-switch mb-2">
-                            <input class="form-check-input" type="checkbox" [(ngModel)]="produto.promocao"
-                                name="promocao" />
-                            <label class="form-check-label">Produto em Promoção</label>
-                        </div>
-
-                        <div class="form-check form-switch mb-3">
-                            <input class="form-check-input" type="checkbox" [(ngModel)]="produto.novidade"
-                                name="novidade" />
-                            <label class="form-check-label">Produto em Destaque</label>
-                        </div>
-
-                        <div class="text-end">
-                            <button class="btn btn-success">Salvar Produto</button>
-                        </div>
-                    </form>
-                </div>
+        <div class="col-12">
+            <label class="form-label">Imagem do Produto</label>
+            <input class="form-control" type="file" accept="image/*" (change)="selecionarImagem($event)" />
+            <div *ngIf="previewImagem" class="mt-2 text-center">
+                <img [src]="previewImagem" class="img-thumbnail" width="150" />
             </div>
         </div>
+
+        <div class="col-md-6 mt-3">
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" [(ngModel)]="produto.promocao" name="promocao" />
+                <label class="form-check-label">Produto em Promoção</label>
+            </div>
+        </div>
+
+        <div class="col-md-6 mt-3">
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" [(ngModel)]="produto.novidade" name="novidade" />
+                <label class="form-check-label">Produto em Destaque</label>
+            </div>
+        </div>
+
+        <div class="col-12 text-end mt-3">
+            <button class="btn btn-orange">Salvar Produto</button>
+        </div>
+
     </div>
-</div>
+</form>

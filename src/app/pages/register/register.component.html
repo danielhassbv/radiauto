@@ -1,36 +1,41 @@
-<div class="container py-5">
-    <div class="card mx-auto" style="max-width: 400px">
-        <div class="card-body">
-            <h4 class="mb-3 text-center">Registrar Novo Admin</h4>
-            <form (ngSubmit)="registrar()" #form="ngForm">
-                <div class="mb-3">
-                    <label class="form-label">Email</label>
-                    <input [(ngModel)]="email" name="email" type="email" class="form-control" required />
-                </div>
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="card p-4 shadow-lg" style="width: 100%; max-width: 400px;">
+        <h4 class="text-center mb-3">Criar conta</h4>
 
-                <div class="mb-3">
-                    <label class="form-label">Senha</label>
-                    <input [(ngModel)]="senha" name="senha" type="password" class="form-control" required
-                        minlength="6" />
-                </div>
+        <form (ngSubmit)="registrar()">
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input [(ngModel)]="email" name="email" type="email" class="form-control" required />
+            </div>
 
-                <div class="mb-3">
-                    <label class="form-label">Confirmar Senha</label>
-                    <input [(ngModel)]="confirmarSenha" name="confirmarSenha" type="password" class="form-control"
-                        required />
-                </div>
+            <div class="mb-3">
+                <label class="form-label">Senha</label>
+                <input [(ngModel)]="senha" name="senha" type="password" class="form-control" required />
+            </div>
 
-                <div *ngIf="senha !== confirmarSenha" class="text-danger mb-2">
-                    As senhas não coincidem
-                </div>
+            <div class="mb-3">
+                <label class="form-label">Confirmar Senha</label>
+                <input [(ngModel)]="confirmarSenha" name="confirmarSenha" type="password" class="form-control"
+                    required />
+            </div>
 
-                <div *ngIf="erro" class="text-danger mb-2">
-                    {{ erro }}
-                </div>
+            <button class="btn btn-success w-100" type="submit" [disabled]="carregando">
+                <span *ngIf="!carregando">Registrar</span>
+                <span *ngIf="carregando">
+                    <span class="spinner-border spinner-border-sm me-2"></span>Registrando...
+                </span>
+            </button>
+            <div class="text-center my-3 text-muted">ou</div>
 
-                <button class="btn btn-dark w-100" type="submit"
-                    [disabled]="senha !== confirmarSenha">Registrar</button>
-            </form>
-        </div>
+            <button class="btn btn-outline-danger w-100" (click)="registrarComGoogle()" [disabled]="carregando">
+                <i class="fab fa-google me-2"></i> Registrar com Google
+            </button>
+
+
+            <a class="btn btn-outline-secondary mt-2 w-100" routerLink="/login">Já tenho uma conta</a>
+        </form>
+
+        <div *ngIf="erro" class="alert alert-danger mt-3 text-center py-2">{{ erro }}</div>
+        <div *ngIf="sucesso" class="alert alert-success mt-3 text-center py-2">{{ sucesso }}</div>
     </div>
 </div>

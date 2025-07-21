@@ -6,7 +6,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { authGuard } from './guards/auth.guard';
 import { RegisterComponent } from './pages/register/register.component';
 import { PainelUsuariosComponent } from './pages/painel-usuarios/painel-usuarios.component';
-
+import { ListagemProdutosComponent } from './pages/listagem-produtos/listagem-produtos.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -20,7 +20,12 @@ export const routes: Routes = [
     {
         path: 'cadastro-produto',
         component: CadastroProdutoComponent,
-        canActivate: [authGuard],
+        outlet: 'modal'
+
+    },
+    {
+        path: 'listagem-produtos',
+        component: ListagemProdutosComponent
     },
 
     { path: 'usuarios', component: PainelUsuariosComponent, canActivate: [authGuard] }

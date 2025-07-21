@@ -1,0 +1,50 @@
+/* Estilo dos cards no padrão Radiauto */
+.card-radiauto {
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+/* Cabeçalho laranja */
+.card-header {
+    background-color: #ff6d00 !important;
+    color: #fff;
+    font-weight: bold;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+/* Botão sucesso Radiauto */
+.btn-success {
+    background-color: #ff6d00;
+    border-color: #ff6d00;
+    font-weight: bold;
+    border-radius: 6px;
+}
+
+.btn-success:hover {
+    background-color: #e55e00;
+    border-color: #e55e00;
+}
+
+/* Botão outline azul escuro */
+.btn-outline-primary {
+    color: #041f3a;
+    border-color: #041f3a;
+    font-weight: bold;
+    border-radius: 6px;
+}
+
+.btn-outline-primary:hover {
+    background-color: #041f3a;
+    color: white;
+}
+
+/* Código estilizado */
+code {
+    background-color: #f3f3f3;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: monospace;
+}

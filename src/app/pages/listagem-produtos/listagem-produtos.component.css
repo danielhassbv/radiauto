@@ -1,0 +1,36 @@
+:root {
+    --radiauto: #f46600;
+}
+
+.text-radiauto {
+    color: var(--radiauto) !important;
+}
+
+.border-radiauto {
+    border-color: var(--radiauto) !important;
+}
+
+.btn-radiauto {
+    background-color: var(--radiauto);
+    color: #fff;
+    border: none;
+}
+
+.btn-radiauto:hover {
+    background-color: #d45700;
+    color: #fff;
+}
+
+.modal {
+    z-index: 1050;
+}
+
+.card-title {
+    font-size: 0.95rem;
+    height: 48px;
+    overflow: hidden;
+}
+
+.fade-card {
+    transition: all 0.3s ease-in-out;
+}

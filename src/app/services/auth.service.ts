@@ -1,8 +1,19 @@
 import { Injectable } from '@angular/core';
-import { signInWithEmailAndPassword, signOut, User, onAuthStateChanged, createUserWithEmailAndPassword } from 'firebase/auth';
-import { Router } from '@angular/router';
+import {
+    signInWithEmailAndPassword,
+    createUserWithEmailAndPassword,
+    sendPasswordResetEmail,
+    signInWithPopup,
+    GoogleAuthProvider,
+    onAuthStateChanged,
+    User,
+    getAdditionalUserInfo,
+    signOut
+} from 'firebase/auth';
+
 import { doc, setDoc } from 'firebase/firestore';
-import { auth, db } from '../firebase.config'; // ✅ use seu config
+import { auth, db } from '../firebase.config';
+import { Router } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -18,15 +29,7 @@ export class AuthService {
         return signInWithEmailAndPassword(auth, email, senha);
     }
 
-    logout() {
-        return signOut(auth).then(() => this.router.navigate(['/login']));
-    }
-
-    isLogado(): boolean {
-        return this.usuario !== null;
-    }
-
-    register(email: string, senha: string) {
+    registrar(email: string, senha: string) {
         return createUserWithEmailAndPassword(auth, email, senha)
             .then(async cred => {
                 await setDoc(doc(db, 'usuarios', cred.user.uid), {
@@ -35,5 +38,39 @@ export class AuthService {
                     criadoEm: new Date()
                 });
             });
+    }
+
+    async loginComGoogle() {
+        const provider = new GoogleAuthProvider();
+        const cred = await signInWithPopup(auth, provider);
+
+        const isNovoUsuario = getAdditionalUserInfo(cred)?.isNewUser;
+
+        if (isNovoUsuario) {
+            await setDoc(doc(db, 'usuarios', cred.user.uid), {
+                email: cred.user.email,
+                uid: cred.user.uid,
+                nome: cred.user.displayName || '',
+                criadoEm: new Date(),
+                via: 'google'
+            });
+        }
+
+        return cred;
+    }
+
+    redefinirSenha(email: string) {
+        return sendPasswordResetEmail(auth, email);
+    }
+
+    logout() {
+        return signOut(auth).then(() => {
+            this.usuario = null;
+            this.router.navigate(['/login']);
+        });
+    }
+
+    isLogado(): boolean {
+        return this.usuario !== null;
     }
 }

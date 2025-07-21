@@ -10,7 +10,7 @@
                 <div class="card-body p-4">
                     <div class="table-responsive">
                         <table class="table table-hover align-middle table-bordered rounded">
-                            <thead class="table-dark text-center">
+                            <thead class="table text-center">
                                 <tr>
                                     <th>Imagem</th>
                                     <th>Nome</th>
@@ -113,3 +113,15 @@
         </div>
     </div>
 </div>
+<div class="container mb-4">
+    <div class="d-flex justify-content-end gap-3">
+        <button class="btn btn-outline-primary" (click)="abrirCadastroModal()">
+            <i class="fas fa-plus me-2"></i> Cadastrar Produto
+        </button>
+
+        <a routerLink="/listar-produtos" class="btn btn-outline-dark">
+            <i class="fas fa-filter me-2"></i> Listar com Filtros
+        </a>
+    </div>
+</div>
+<app-sync-produtos></app-sync-produtos>

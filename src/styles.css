@@ -1,1 +1,32 @@
 /* You can add global styles to this file, and also import other style files */
+.bg-radiauto {
+    background-color: #f46600;
+}
+
+.modal-content {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    border: none;
+}
+
+.modal-content .btn-close {
+    filter: brightness(0) invert(1);
+}
+
+.modal.fade .modal-dialog {
+    transform: translateY(-30px);
+    transition: transform 0.3s ease-out;
+}
+
+.modal.fade.show .modal-dialog {
+    transform: translateY(0);
+}
+
+.btn-orange {
+    background-color: #f46600;
+    color: white;
+    border: none;
+}
+
+.btn-orange:hover {
+    background-color: #d95400;
+}

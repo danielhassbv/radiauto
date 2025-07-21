@@ -1,0 +1,103 @@
+<div class="container my-5">
+    <div class="row">
+        <!-- FILTROS -->
+        <div class="col-lg-3 mb-4">
+            <h5 class="fw-bold mb-3 text-radiauto"><i class="fas fa-filter me-2 text-radiauto"></i>Filtros</h5>
+
+            <div class="mb-4">
+                <h6 class="text-uppercase small text-radiauto">Marca</h6>
+                <div *ngFor="let marca of marcas" class="form-check">
+                    <input class="form-check-input border-radiauto" type="checkbox" [value]="marca" [id]="marca"
+                        (change)="toggleMarca($event)">
+                    <label class="form-check-label" [for]="marca">{{ marca }}</label>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <h6 class="text-uppercase small text-radiauto">Categoria</h6>
+                <div *ngFor="let cat of categorias" class="form-check">
+                    <input class="form-check-input border-radiauto" type="checkbox" [value]="cat" [id]="cat"
+                        (change)="toggleCategoria($event)">
+                    <label class="form-check-label" [for]="cat">{{ cat }}</label>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <h6 class="text-uppercase small text-radiauto">Preço</h6>
+                <input type="number" class="form-control border-radiauto mb-2" [(ngModel)]="precoMin"
+                    placeholder="Mínimo" (input)="onChangeFiltro()">
+                <input type="number" class="form-control border-radiauto" [(ngModel)]="precoMax" placeholder="Máximo"
+                    (input)="onChangeFiltro()">
+            </div>
+
+            <div class="mb-4">
+                <h6 class="text-uppercase small text-radiauto">Outros</h6>
+                <div class="form-check">
+                    <input class="form-check-input border-radiauto" type="checkbox" [(ngModel)]="promocao" id="promocao"
+                        (change)="onChangeFiltro()">
+                    <label class="form-check-label" for="promocao">Promoção</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input border-radiauto" type="checkbox" [(ngModel)]="novidade" id="novidade"
+                        (change)="onChangeFiltro()">
+                    <label class="form-check-label" for="novidade">Novidade</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- LISTA DE PRODUTOS COM ANIMAÇÃO -->
+        <div class="col-lg-9">
+            <div *ngIf="loadingProdutos" class="text-center py-5">
+                <div class="spinner-border text-radiauto" role="status"></div>
+            </div>
+
+            <div *ngIf="!loadingProdutos" @fadeTrigger class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+                <div class="col" *ngFor="let p of produtosFiltrados">
+                    <div class="card h-100 shadow-sm border-0 position-relative fade-card">
+                        <img [src]="p.imagem" class="card-img-top" style="height: 180px; object-fit: contain;"
+                            alt="{{ p.nome }}">
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <h6 class="fw-bold text-uppercase text-truncate">{{ p.nome }}</h6>
+                            <p class="mb-1 text-radiauto fw-bold fs-5">R$ {{ p.preco | number:'1.2-2' }}</p>
+                            <p class="mb-2 text-muted"><small>Ou em até 6x de R$ {{ (p.preco / 6) | number:'1.2-2' }}
+                                    sem juros</small></p>
+                            <div class="d-flex gap-2 mt-auto">
+                                <button class="btn btn-outline-dark btn-sm w-50" (click)="abrirModal(p)">ESPIAR</button>
+                                <button class="btn btn-success btn-sm w-50">ADICIONAR AO CARRINHO</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NENHUM PRODUTO -->
+            <div *ngIf="!loadingProdutos && produtosFiltrados.length === 0" class="text-center mt-5 text-muted">
+                <p>Nenhum produto encontrado com os filtros selecionados.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Backdrop -->
+<div class="modal fade show d-block" tabindex="-1" *ngIf="mostrarModal" (click)="fecharModal()"
+    style="background-color: rgba(0,0,0,0.5)">
+    <div class="modal-dialog modal-lg modal-dialog-centered" (click)="$event.stopPropagation()">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ selectedProduto?.nome }}</h5>
+                <button type="button" class="btn-close" (click)="fecharModal()"></button>
+            </div>
+            <div class="modal-body row">
+                <div class="col-md-5 text-center">
+                    <img [src]="selectedProduto?.imagem" alt="Produto" class="img-fluid" />
+                </div>
+                <div class="col-md-7">
+                    <p class="fs-4 text-radiauto">R$ {{ selectedProduto?.preco | number:'1.2-2' }}</p>
+                    <p class="text-muted">
+                        Em até 6x de R$ {{ (selectedProduto?.preco! / 6) | number:'1.2-2' }} sem juros
+                    </p>
+                    <button class="btn btn-success">Adicionar ao carrinho</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
