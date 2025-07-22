@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
+
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -30,7 +31,7 @@ export class HeaderComponent {
   }
 
   goToProfile() {
-    this.router.navigate(['/perfil']);
+    this.router.navigate(['/painel-produtos']);
     this.dropdownLoginAberto = false;
   }
 

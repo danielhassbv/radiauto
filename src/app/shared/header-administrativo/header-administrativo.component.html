@@ -1,0 +1,26 @@
+<!-- DASHBOARD HEADER -->
+<div class="adm-header container-fluid py-1 px-5 bg-white text-dark">
+    <div class="d-flex justify-content-between align-items-center my-4">
+
+        <!-- TÍTULO CLICÁVEL -->
+        <h2 class="mb-0">
+            <a (click)="irParaPainel()" style="cursor: pointer;"
+                class="text-dark text-decoration-none d-flex align-items-center">
+                <i class="orange-text fas fa-tachometer-alt me-2"></i>
+                Painel Administrativo
+            </a>
+        </h2>
+
+        <!-- INFORMAÇÕES DO USUÁRIO -->
+        <div class="d-flex align-items-center gap-3">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-user-circle text-primary me-2 fs-5"></i>
+                <strong>{{ usuario?.email }}</strong>
+            </div>
+            <button class="btn btn-sm btn-outline-danger" (click)="logout()">
+                <i class="fas fa-sign-out-alt me-2"></i> Sair
+            </button>
+        </div>
+
+    </div>
+</div>

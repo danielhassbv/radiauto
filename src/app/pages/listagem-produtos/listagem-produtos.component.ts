@@ -5,15 +5,18 @@ import { ProdutoService } from '../../services/produto.service';
 import { Produto } from '../../models/produto.model';
 import {
   trigger,
-  transition,
+  state,
   style,
+  transition,
   animate
 } from '@angular/animations';
+
+import { HeaderAdministrativoComponent } from '../../shared/header-administrativo/header-administrativo.component';
 
 @Component({
   selector: 'app-listagem-produtos',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, HeaderAdministrativoComponent],
   templateUrl: './listagem-produtos.component.html',
   styleUrls: ['./listagem-produtos.component.css'],
   animations: [
@@ -54,7 +57,9 @@ export class ListagemProdutosComponent implements OnInit {
       this.produtosFiltrados = [...produtos];
       this.marcas = [...new Set(produtos.map(p => p.marca))];
       this.categorias = [...new Set(produtos.map(p => p.categoria))];
+
     });
+
   }
 
   aplicarFiltro(): void {

@@ -1,42 +1,9 @@
-<div class="container">
-    <!-- CARD 1: Firestore para RTDB -->
-    <div class="card shadow-sm mt-4 border-0 card-radiauto">
-        <div class="card-header">
-            <i class="fas fa-sync-alt me-2"></i> Sincronizar Firestore ➜ Realtime
-        </div>
-        <div class="card-body">
-            <p class="text-muted">
-                Copia os dados da coleção <code>produtos</code> do <strong>Firestore</strong> para o
-                <strong>Realtime Database</strong>.
-            </p>
-            <button class="btn btn-success px-4 fw-bold" (click)="sincronizar()"
-                [disabled]="carregandoFirestoreParaRTDB">
-                {{ carregandoFirestoreParaRTDB ? 'Sincronizando...' : 'Sincronizar agora' }}
-            </button>
-        </div>
-    </div>
-
-    <!-- CARD 2: RTDB para Firestore -->
-    <div class="card shadow-sm mt-4 border-0 card-radiauto">
-        <div class="card-header">
-            <i class="fas fa-exchange-alt me-2"></i> Sincronizar Realtime ➜ Firestore
-        </div>
-        <div class="card-body">
-            <p class="text-muted">
-                Copia os dados do <strong>Realtime Database</strong> para a coleção <code>produtos</code> no
-                <strong>Firestore</strong>.
-            </p>
-            <button class="btn btn-outline-primary px-4 fw-bold" (click)="sincronizarParaFirestore()"
-                [disabled]="carregandoRTDBParaFirestore">
-                {{ carregandoRTDBParaFirestore ? 'Sincronizando...' : 'Importar agora' }}
-            </button>
-        </div>
-    </div>
+<div class="container py-4">
 
     <!-- CARD 3: Realtime ➜ Supabase -->
     <div class="card shadow-sm mt-4 border-0 card-radiauto">
         <div class="card-header">
-            <i class="fas fa-cloud-download-alt me-2"></i> Ler estoque da loja (Realtime ➜ Supabase)
+            <i class="fas fa-cloud-download-alt me-2"></i> EXPORTAR TABPRO (Realtime ➜ Supabase)
         </div>
         <div class="card-body">
             <p class="text-muted">
@@ -53,7 +20,7 @@
     <!-- CARD: Realtime ➜ Firestore -->
     <div class="card shadow-sm mt-4 border-0 card-radiauto">
         <div class="card-header">
-            <i class="fas fa-fire me-2 text-danger"></i> Importar TABPRO (Realtime ➜ Firestore)
+            <i class="fas fa-fire me-2 text-danger"></i> EXPORTAR TABPRO (Realtime ➜ Firestore)
         </div>
         <div class="card-body">
             <p class="text-muted">

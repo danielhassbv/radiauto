@@ -1,45 +1,21 @@
-<!-- Ícones informativos -->
-<div class="container py-4 border-bottom">
-    <div class="row text-center">
-        <div class="col-3">
-            <i class="promocao-icon fas fa-credit-card me-2"></i><br />
-            <span>Pagamento<br />
-                <p class="promocao-text">Em até 6x no cartão sem juros</p>
-            </span>
-        </div>
-        <div class="col-3">
-            <i class="promocao-icon fas fa-map-marked-alt me-2"></i><br />
-            <span>Entregas<br />
-                <p class="promocao-text">Entregamos em todo o Brasil</p>
-            </span>
-        </div>
-        <div class="col-3">
-            <i class="promocao-icon fas fa-tags me-2"></i><br />
-            <span>Vantagens<br />
-                <p class="promocao-text">Seja um membro</p>
-            </span>
-        </div>
-        <div class="col-3">
-            <i class="promocao-icon fas fa-lock me-2"></i><br />
-            <span>100% seguro<br />
-                <p class="promocao-text">Faça suas compras com tranquilidade</p>
-            </span>
-        </div>
+<!-- Título da seção -->
+<div class="container-fluid promocao-title-container py-5">
+    <div class="container">
+        <h4 class="novidades-title fw-bold m-0">Novidades</h4>
     </div>
 </div>
 
-<div class="container-fluid promocao-title-container py-5">
-    <div class="container">
-        <h4 class="promocao-title fw-bold m-0">Promoção</h4>
-    </div>
-</div>
-<div class="container py-5 position-relative p-5 ">
-    <div #carouselRef id="carouselProdutos" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
+<!-- Carrossel de Novidades -->
+<div class="container py-5 position-relative p-5" *ngIf="gruposDeProdutos.length > 0">
+    <div #carouselNovidadesRef id="carouselNovidades" class="carousel slide" data-bs-ride="carousel"
+        data-bs-interval="4000">
         <div class="carousel-inner">
             <div *ngFor="let grupo of gruposDeProdutos; let i = index" class="carousel-item" [class.active]="i === 0">
                 <div class="d-flex justify-content-center flex-wrap gap-3">
                     <div *ngFor="let p of grupo" class="card produto text-center border-0"
                         [ngStyle]="{ flex: '1 1 ' + cardWidth + '%', 'max-width': '240px', 'min-width': '180px' }">
+
+                        <!-- Imagem com ações -->
                         <div class="produto-img-wrapper position-relative overflow-hidden">
                             <img [src]="p.imagem" class="card-img-top" alt="Produto" />
 
@@ -49,19 +25,22 @@
                                 <i class="fas fa-ellipsis-h"></i>
                             </button>
 
-                            <!-- Hover + mobile action box -->
+                            <!-- Hover e ações -->
                             <div class="produto-hover" [class.mostrar]="p.mostrarAcoes === true">
                                 <button class="btn-espiar" data-bs-toggle="modal"
-                                    [attr.data-bs-target]="'#modal' + p.id">Ver produto</button>
+                                    [attr.data-bs-target]="'#modal' + p.id">
+                                    Ver produto
+                                </button>
                                 <button class="btn-carrinho">ADICIONAR AO CARRINHO</button>
                             </div>
-
                         </div>
 
+                        <!-- Informações do Produto -->
                         <div class="card-body p-2">
                             <h6 class="card-title text-uppercase small fw-bold">{{ p.nome }}</h6>
-                            <p *ngIf="p.preco" class="text-muted text-decoration-line-through mb-1">De {{ p.preco + 2 |
-                                currency:'BRL' }}</p>
+                            <p *ngIf="p.preco" class="text-muted text-decoration-line-through mb-1">
+                                De {{ p.preco + 2 | currency:'BRL' }}
+                            </p>
                             <p class="fw-bold text-primary mb-1">{{ p.preco | currency:'BRL' }}</p>
                             <small class="text-muted">Ou em até 6x sem juros</small>
                         </div>
@@ -70,19 +49,19 @@
             </div>
         </div>
 
-        <!-- Controles -->
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselProdutos" data-bs-slide="prev">
+        <!-- Controles do Carrossel -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselNovidades" data-bs-slide="prev">
             <span class="carousel-control-prev-icon"></span>
             <span class="visually-hidden">Anterior</span>
         </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselProdutos" data-bs-slide="next">
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselNovidades" data-bs-slide="next">
             <span class="carousel-control-next-icon"></span>
             <span class="visually-hidden">Próximo</span>
         </button>
     </div>
 </div>
 
-<!-- Modais -->
+<!-- Modais dos Produtos -->
 <div *ngFor="let p of produtos">
     <div class="modal fade" [id]="'modal' + p.id" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
@@ -93,19 +72,14 @@
                         <img [src]="p.imagem" class="img-fluid rounded shadow" alt="Produto" />
                     </div>
 
-                    <!-- Informações -->
+                    <!-- Detalhes -->
                     <div class="col-md-7 d-flex flex-column justify-content-between">
                         <div>
                             <h4 class="fw-bold text-uppercase">{{ p.nome }}</h4>
-
                             <p *ngIf="p.preco" class="text-muted text-decoration-line-through mb-1">
-                                De {{ p.preco + 2 | currency: 'BRL' }}
+                                De {{ p.preco + 2 | currency:'BRL' }}
                             </p>
-
-                            <h3 class="text-primary fw-bold mb-3">
-                                {{ p.preco | currency: 'BRL' }}
-                            </h3>
-
+                            <h3 class="text-primary fw-bold mb-3">{{ p.preco | currency:'BRL' }}</h3>
                             <p class="text-secondary small">{{ p.descricao }}</p>
                         </div>
 

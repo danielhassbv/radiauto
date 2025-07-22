@@ -1,5 +1,13 @@
 import { Component, AfterViewInit } from '@angular/core';
 import { CommonModule, registerLocaleData } from '@angular/common';
+import {
+  trigger,
+  state,
+  style,
+  transition,
+  animate
+} from '@angular/animations';
+
 import localePt from '@angular/common/locales/pt';
 import { LOCALE_ID } from '@angular/core';
 import { ProdutoService } from '../../services/produto.service';
@@ -9,29 +17,87 @@ import Swal from 'sweetalert2';
 import { SyncProdutosComponent } from '../../components/sync-produtos/sync-produtos.component';
 import { Router } from '@angular/router';
 declare var bootstrap: any;
+import { auth } from '../../firebase.config';
+import { onAuthStateChanged, User, signOut } from 'firebase/auth';
+import { HeaderAdministrativoComponent } from '../../shared/header-administrativo/header-administrativo.component';
 
 
 registerLocaleData(localePt, 'pt-BR');
-
 @Component({
   selector: 'app-painel-produtos',
   templateUrl: './painel-produtos.component.html',
   styleUrls: ['./painel-produtos.component.css'],
   standalone: true,
-  imports: [FormsModule, CommonModule, SyncProdutosComponent],
+  imports: [FormsModule, CommonModule, SyncProdutosComponent, HeaderAdministrativoComponent],
   providers: [{ provide: LOCALE_ID, useValue: 'pt-BR' }],
+  animations: [
+    trigger('expandCollapse', [
+      state('expanded', style({
+        height: '*',
+        opacity: 1,
+        padding: '*',
+        overflow: 'hidden'
+      })),
+      state('collapsed', style({
+        height: '0px',
+        opacity: 0,
+        padding: '0px',
+        overflow: 'hidden'
+      })),
+      transition('expanded <=> collapsed', [
+        animate('300ms ease')
+      ]),
+    ])
+  ],
+
 })
-export class PainelProdutosComponent {
+export class PainelProdutosComponent implements AfterViewInit {
+
   produto: Produto = this.novoProduto();
   produtos: Produto[] = [];
+  produtosPaginados: Produto[] = [];
+
   imagemSelecionada: File | null = null;
   previewImagem: string | ArrayBuffer | null = null;
 
+  usuario: User | null = null;
+
+  // Paginação
+  paginaAtual = 1;
+  itensPorPagina = 5;
+  totalPaginas = 0;
+  paginas: number[] = [];
+
   constructor(private produtoService: ProdutoService, private router: Router) {
     this.atualizarLista();
+
+    onAuthStateChanged(auth, (user) => {
+      this.usuario = user;
+    });
+  }
+
+  irParaListagem() {
+    this.router.navigate(['/listagem-produtos']);
   }
 
 
+  ngAfterViewInit(): void {
+    const modalElement = document.getElementById('modalContainer');
+    if (modalElement) {
+      modalElement.addEventListener('hidden.bs.modal', () => {
+        this.router.navigate([{ outlets: { modal: null } }]);
+      });
+    }
+  }
+
+  abrirCadastroModal() {
+    const modalElement = document.getElementById('modalContainer');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+      this.router.navigate([{ outlets: { modal: ['cadastro-produto'] } }]);
+    }
+  }
 
   editar(p: Produto) {
     this.produto = { ...p };
@@ -46,31 +112,11 @@ export class PainelProdutosComponent {
     });
 
     setTimeout(() => {
-      const modal = new (window as any).bootstrap.Modal(
-        document.getElementById('modalEditar')
-      );
+      const modal = new bootstrap.Modal(document.getElementById('modalEditar'));
       modal.show();
     }, 200);
   }
-  abrirCadastroModal() {
-    const modalElement = document.getElementById('modalContainer');
-    if (modalElement) {
-      const modal = new bootstrap.Modal(modalElement);
-      modal.show();
 
-      this.router.navigate([{ outlets: { modal: ['cadastro-produto'] } }]);
-    }
-  }
-  ngAfterViewInit(): void {
-    const modalElement = document.getElementById('modalContainer');
-
-    if (modalElement) {
-      modalElement.addEventListener('hidden.bs.modal', () => {
-        // Ao fechar o modal, remove a rota nomeada "modal"
-        this.router.navigate([{ outlets: { modal: null } }]);
-      });
-    }
-  }
   async remover(id: string) {
     await this.produtoService.deletar(id);
     this.atualizarLista();
@@ -111,7 +157,7 @@ export class PainelProdutosComponent {
 
       const modalEl = document.getElementById('modalEditar');
       if (modalEl) {
-        const modal = (window as any).bootstrap.Modal.getInstance(modalEl);
+        const modal = bootstrap.Modal.getInstance(modalEl);
         modal?.hide();
       }
     } catch (error) {
@@ -127,6 +173,41 @@ export class PainelProdutosComponent {
   atualizarLista() {
     this.produtoService.getProdutos().subscribe((produtos) => {
       this.produtos = produtos;
+      this.totalPaginas = Math.ceil(this.produtos.length / this.itensPorPagina);
+      this.atualizarPaginacao();
+    });
+  }
+
+  atualizarPaginacao() {
+    const inicio = (this.paginaAtual - 1) * this.itensPorPagina;
+    const fim = inicio + this.itensPorPagina;
+    this.produtosPaginados = this.produtos.slice(inicio, fim);
+    this.paginas = Array.from({ length: this.totalPaginas }, (_, i) => i + 1);
+  }
+
+  proxima() {
+    if (this.paginaAtual < this.totalPaginas) {
+      this.paginaAtual++;
+      this.atualizarPaginacao();
+    }
+  }
+
+  anterior() {
+    if (this.paginaAtual > 1) {
+      this.paginaAtual--;
+      this.atualizarPaginacao();
+    }
+  }
+
+  irParaPagina(pagina: number) {
+    this.paginaAtual = pagina;
+    this.atualizarPaginacao();
+  }
+
+  logout() {
+    signOut(auth).then(() => {
+      this.usuario = null;
+      this.router.navigate(['/login']);
     });
   }
 

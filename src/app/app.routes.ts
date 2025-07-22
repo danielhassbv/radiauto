@@ -11,11 +11,10 @@ import { ListagemProdutosComponent } from './pages/listagem-produtos/listagem-pr
 export const routes: Routes = [
     { path: '', component: HomeComponent },
     { path: 'login', component: LoginComponent },
-    { path: 'register', component: RegisterComponent }, // <-- Nova rota
+    { path: 'register', component: RegisterComponent },
     {
         path: 'painel-produtos',
         component: PainelProdutosComponent,
-        canActivate: [authGuard],
     },
     {
         path: 'cadastro-produto',

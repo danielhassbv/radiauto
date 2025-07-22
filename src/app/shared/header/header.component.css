@@ -1,3 +1,14 @@
+/* Container que segura o header todo */
+.header-fixo {
+    position: sticky;
+    top: 0;
+    z-index: 1050;
+    /* acima do conteúdo */
+    background-color: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+
 /* Cursor apenas nos clicáveis */
 button,
 i[title],

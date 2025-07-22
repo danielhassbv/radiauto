@@ -1,68 +1,90 @@
-<div class="container py-5">
-    <div class="row">
-        <div class="col-12">
-            <div class="card shadow-lg border-0 rounded-4">
-                <div
-                    class="card-header bg-dark text-white d-flex justify-content-between align-items-center rounded-top-4 px-4 py-3">
-                    <h4 class="mb-0"><i class="fas fa-box-open me-2"></i> Produtos Cadastrados</h4>
-                    <span class="badge bg-light text-dark px-3 py-2 rounded-pill">Total: {{ produtos.length }}</span>
-                </div>
-                <div class="card-body p-4">
-                    <div class="table-responsive">
-                        <table class="table table-hover align-middle table-bordered rounded">
-                            <thead class="table text-center">
-                                <tr>
-                                    <th>Imagem</th>
-                                    <th>Nome</th>
-                                    <th>Preço</th>
-                                    <th style="width: 150px;">Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let p of produtos">
-                                    <td class="text-center">
-                                        <img *ngIf="p.imagem" [src]="p.imagem" width="60"
-                                            class="img-thumbnail rounded" />
-                                        <span *ngIf="!p.imagem" class="text-muted fst-italic">Sem imagem</span>
-                                    </td>
-                                    <td class="fw-semibold">{{ p.nome }}</td>
-                                    <td class="text-center">
-                                        <span *ngIf="p.preco !== undefined" class="badge bg-success px-3 py-2">
-                                            {{ p.preco | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
-                                        </span>
-                                        <span *ngIf="p.preco === undefined" class="badge bg-danger px-3 py-2">Sem
-                                            preço</span>
-                                    </td>
-                                    <td class="text-center">
-                                        <button class="btn btn-sm btn-outline-primary me-2" (click)="editar(p)"
-                                            title="Editar Produto">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-danger" (click)="remover(p.id!)"
-                                            title="Excluir Produto">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+<app-header-administrativo></app-header-administrativo>
+<div class="container py-4">
+    <!-- BOTÕES DE AÇÕES RÁPIDAS -->
+    <div class="d-flex justify-content-end gap-3 mb-3">
+        <button class="btn orange-btn" (click)="abrirCadastroModal()">
+            <i class="fas fa-plus me-2"></i> Novo Produto
+        </button>
+        <button type="button" class="btn blue-btn" (click)="irParaListagem()">
+            <i class="fas fa-filter me-2"></i> Lista com Filtro
+        </button>
 
-                    <div *ngIf="produtos.length === 0" class="text-center text-muted pt-4">
-                        <i class="fas fa-box-open fa-2x mb-2"></i>
-                        <p class="mb-0">Nenhum produto cadastrado ainda.</p>
-                    </div>
-                </div>
+    </div>
+
+    <!-- TABELA DE PRODUTOS -->
+    <div class="card shadow border-0 rounded-4">
+        <div
+            class="card-header bg-dark text-white d-flex justify-content-between align-items-center rounded-top-4 px-4 py-3">
+            <h4 class="mb-0"><i class="fas fa-box-open me-2"></i> Produtos Cadastrados</h4>
+            <span class="badge bg-light text-dark px-3 py-2 rounded-pill">Total: {{ produtos.length }}</span>
+        </div>
+        <div class="card-body p-4">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle table-bordered rounded">
+                    <thead class="table text-center">
+                        <tr>
+                            <th>Imagem</th>
+                            <th>Nome</th>
+                            <th>Preço</th>
+                            <th style="width: 150px;">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let p of produtosPaginados">
+                            <td class="text-center">
+                                <img *ngIf="p.imagem" [src]="p.imagem" width="60" class="img-thumbnail rounded" />
+                                <span *ngIf="!p.imagem" class="text-muted fst-italic">Sem imagem</span>
+                            </td>
+                            <td class="fw-semibold">{{ p.nome }}</td>
+                            <td class="text-center">
+                                <span *ngIf="p.preco !== undefined" class="badge bg-success px-3 py-2">
+                                    {{ p.preco | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+                                </span>
+                                <span *ngIf="p.preco === undefined" class="badge bg-danger px-3 py-2">Sem preço</span>
+                            </td>
+                            <td class="text-center">
+                                <button class="btn btn-sm btn-outline-blue me-2" (click)="editar(p)">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-orange" (click)="remover(p.id!)">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Paginação -->
+            <div class="d-flex justify-content-between align-items-center mt-3">
+                <div class="text-muted">Página {{ paginaAtual }} de {{ totalPaginas }}</div>
+                <nav>
+                    <ul class="pagination mb-0" style="cursor: pointer;">
+                        <li class="page-item" [class.disabled]="paginaAtual === 1">
+                            <a class="page-link" (click)="anterior()">Anterior</a>
+                        </li>
+                        <li class="page-item" *ngFor="let i of paginas" [class.active]="i === paginaAtual">
+                            <a class="page-link" (click)="irParaPagina(i)">{{ i }}</a>
+                        </li>
+                        <li class="page-item" [class.disabled]="paginaAtual === totalPaginas">
+                            <a class="page-link" (click)="proxima()">Próxima</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+            <div *ngIf="produtos.length === 0" class="text-center text-muted pt-4">
+                <i class="fas fa-box-open fa-2x mb-2"></i>
+                <p class="mb-0">Nenhum produto cadastrado ainda.</p>
             </div>
         </div>
     </div>
 </div>
-
 <!-- Modal de edição -->
 <div class="modal fade" id="modalEditar" tabindex="-1" aria-labelledby="modalEditarLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header bg-white text-dark">
+            <div class="modal-header orange text-white">
                 <h5 class="modal-title" id="modalEditarLabel">Editar Produto</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
             </div>
@@ -81,6 +103,16 @@
                         <input type="text" class="form-control" (input)="atualizarPreco($event)"
                             [value]="produto.preco | currency:'BRL':'symbol':'1.2-2':'pt-BR'" />
                     </div>
+                    <div class="mb-3">
+                        <label class="form-label">Categoria</label>
+                        <input type="text" class="form-control" [(ngModel)]="produto.categoria" name="categoria"
+                            required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Marca</label>
+                        <textarea class="form-control" [(ngModel)]="produto.marca" name="marca"></textarea>
+                    </div>
+
                     <div class="mb-3">
                         <label class="form-label">Imagem</label>
                         <input type="file" class="form-control" (change)="selecionarImagem($event)" />
@@ -113,15 +145,5 @@
         </div>
     </div>
 </div>
-<div class="container mb-4">
-    <div class="d-flex justify-content-end gap-3">
-        <button class="btn btn-outline-primary" (click)="abrirCadastroModal()">
-            <i class="fas fa-plus me-2"></i> Cadastrar Produto
-        </button>
 
-        <a routerLink="/listar-produtos" class="btn btn-outline-dark">
-            <i class="fas fa-filter me-2"></i> Listar com Filtros
-        </a>
-    </div>
-</div>
 <app-sync-produtos></app-sync-produtos>

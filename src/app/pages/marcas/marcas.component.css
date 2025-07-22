@@ -1,11 +1,13 @@
-.marca-title-container {
-    background-color: #041f3a;
-}
-
 .marca-title {
-    color: white;
+    color: #041f3a;
     font-size: 2rem;
     padding-bottom: 5px;
+}
+
+.gray-bg {
+    background-color: rgb(235, 235, 235);
+    cursor: default;
+
 }
 
 .marca-item {
@@ -19,6 +21,7 @@
     background-color: white;
     cursor: pointer;
     margin: 20px 0px;
+
 }
 
 .marca-item img {

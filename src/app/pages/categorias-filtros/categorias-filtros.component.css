@@ -1,0 +1,15 @@
+.bg-gray {
+    background-color: rgb(235, 235, 235);
+
+}
+
+.categoria-banner {
+    height: 350px;
+    object-fit: cover;
+}
+
+@media (max-width: 768px) {
+    .categoria-banner {
+        height: 180px;
+    }
+}

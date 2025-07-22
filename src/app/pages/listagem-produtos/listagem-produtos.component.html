@@ -1,3 +1,5 @@
+<app-header-administrativo></app-header-administrativo>
+
 <div class="container my-5">
     <div class="row">
         <!-- FILTROS -->
@@ -58,13 +60,10 @@
                             alt="{{ p.nome }}">
                         <div class="card-body d-flex flex-column justify-content-between">
                             <h6 class="fw-bold text-uppercase text-truncate">{{ p.nome }}</h6>
+                            <p class="text-dark">{{ p.descricao }}</p>
+                            <p class="text-dark"><b>MARCA: </b>{{ p.marca }}</p>
+                            <p class="text-dark"><b>CATEGORIA: </b>{{ p.categoria }}</p>
                             <p class="mb-1 text-radiauto fw-bold fs-5">R$ {{ p.preco | number:'1.2-2' }}</p>
-                            <p class="mb-2 text-muted"><small>Ou em até 6x de R$ {{ (p.preco / 6) | number:'1.2-2' }}
-                                    sem juros</small></p>
-                            <div class="d-flex gap-2 mt-auto">
-                                <button class="btn btn-outline-dark btn-sm w-50" (click)="abrirModal(p)">ESPIAR</button>
-                                <button class="btn btn-success btn-sm w-50">ADICIONAR AO CARRINHO</button>
-                            </div>
                         </div>
                     </div>
                 </div>

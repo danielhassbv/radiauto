@@ -4,6 +4,10 @@
     overflow: hidden;
 }
 
+.card-body {
+    transition: all 0.3s ease;
+}
+
 /* Cabeçalho escuro com laranja vibrante */
 .card-header {
     background-color: #ff6d00 !important;
@@ -62,25 +66,7 @@
 }
 
 /* Ações - Botões */
-.btn-outline-primary {
-    color: #041f3a;
-    border-color: #041f3a;
-}
 
-.btn-outline-primary:hover {
-    background-color: #041f3a;
-    color: #fff;
-}
-
-.btn-outline-danger {
-    color: #ff6d00;
-    border-color: #ff6d00;
-}
-
-.btn-outline-danger:hover {
-    background-color: #ff6d00;
-    color: #fff;
-}
 
 /* Imagem de pré-visualização */
 .img-thumbnail {

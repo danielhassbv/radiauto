@@ -1,34 +1,4 @@
-.promocao-icon {
-    font-size: 1.8rem;
-    color: #333;
-    color: #ff6d00;
-    margin-bottom: 10px;
-}
-
-span {
-    font-weight: 600;
-}
-
-.promocao-text {
-    font-weight: 400;
-    font-size: 1rem;
-    margin: 0;
-}
-
-/* Impede quebra de linha no celular */
-@media (max-width: 576px) {
-    .row>.col-3 {
-        flex: 0 0 25%;
-        max-width: 25%;
-        padding: 10px 5px;
-    }
-
-    .promocao-text {
-        font-size: 0.8rem;
-    }
-}
-
-.promocao-title {
+.novidades-title {
     color: #041f3a;
     font-size: 2rem;
     padding-bottom: 5px;

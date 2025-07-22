@@ -1,34 +1,33 @@
-<div class="container-fluid 
-marca-title-container py-1">
-    <div class="container">
+<div class="gray-bg">
+    <div class="container py-2">
         <h4 class="
         marca-title fw-bold m-0">Compre por marca</h4>
     </div>
-</div>
-<div class="container">
-    <div id="carouselMarcas" class="carousel slide" #carouselRef>
-        <div class="carousel-inner">
-            <div *ngFor="let grupo of gruposDeMarcas; let i = index" class="carousel-item" [class.active]="i === 0">
-                <div class="d-flex justify-content-center flex-wrap gap-4">
-                    <div *ngFor="let marca of grupo" class="bg-white p-3 rounded shadow-sm marca-item"
-                        (click)="filtrarPorMarca(marca)"
-                        [ngStyle]="{ flex: '1 1 ' + cardWidth + '%', 'max-width': '180px', 'min-width': '120px' }">
-                        <img [src]="getLogoPath(marca)" [alt]="marca" />
+    <div class="container">
+        <div id="carouselMarcas" class="carousel slide" #carouselRef>
+            <div class="carousel-inner">
+                <div *ngFor="let grupo of gruposDeMarcas; let i = index" class="carousel-item" [class.active]="i === 0">
+                    <div class="d-flex justify-content-center flex-wrap gap-4">
+                        <div *ngFor="let marca of grupo" class="bg-white p-3 rounded shadow-sm marca-item"
+                            (click)="filtrarPorMarca(marca)"
+                            [ngStyle]="{ flex: '1 1 ' + cardWidth + '%', 'max-width': '180px', 'min-width': '120px' }">
+                            <img [src]="getLogoPath(marca)" [alt]="marca" />
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- Botões de controle exclusivos -->
+            <!-- Botões de controle exclusivos -->
 
-        <button class="btn-marcas carousel-control-prev" type="button" data-bs-target="#carouselMarcas"
-            data-bs-slide="prev">
-            <span class="carousel-control-prev-icon"></span>
-            <span class="visually-hidden">Anterior</span>
-        </button>
-        <button class="btn-marcas carousel-control-next" type="button" data-bs-target="#carouselMarcas"
-            data-bs-slide="next">
-            <span class="carousel-control-next-icon"></span>
-            <span class="visually-hidden">Próximo</span>
-        </button>
+            <button class="btn-marcas carousel-control-prev" type="button" data-bs-target="#carouselMarcas"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+                <span class="visually-hidden">Anterior</span>
+            </button>
+            <button class="btn-marcas carousel-control-next" type="button" data-bs-target="#carouselMarcas"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+                <span class="visually-hidden">Próximo</span>
+            </button>
+        </div>
     </div>
 </div>
