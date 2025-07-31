@@ -78,17 +78,18 @@ export class CadastroProdutoComponent {
   }
 
   criarNovoProduto(): Produto {
-    return {
-      nome: '',
-      descricao: '',
-      preco: 0,
-      imagem: '',
-      marca: '',
-      categoria: '',
-      promocao: false,
-      novidade: false
-    };
-  }
+  return {
+    nome: '',
+    descricao: '',
+    preco: 0,
+    quantidade: 0, // adicionado para resolver o erro
+    imagem: '',
+    marca: '',
+    categoria: '',
+    promocao: false,
+    novidade: false,
+  };
+}
 
   limparFormulario(): void {
     this.produto = this.criarNovoProduto();

@@ -13,31 +13,68 @@ import { CommonModule } from '@angular/common';
 })
 export class CategoriasFiltrosComponent implements OnInit {
   produtos: Produto[] = [];
-  categoriasUnicas: string[] = [];
-  categoriaDestaque = 'arrefecimento'; // 🔴 Categoria à esquerda
-  categoriasRestantes: string[] = [];
+  categoriasFiltradas: string[] = [];
+  categoriaDestaque = 'ARREFECIMENTO'; // Destaque fixo em maiúsculas
 
-  constructor(private produtoService: ProdutoService) { }
+  // Categorias permitidas
+  categoriasPermitidas = [
+    'RADIADORES',
+    'INTERCOOLER',
+    'COLMEIA',
+    'ADITIVOS',
+    'VENTOINHA',
+    'EMBREAGEM VISCOSA',
+    'RESFRIADOR DE ÓLEO',
+    'VÁLVULA TERMOESTÁTICA'
+  ];
+
+  constructor(private produtoService: ProdutoService) {}
 
   ngOnInit(): void {
     this.produtoService.getProdutos().subscribe(produtos => {
       this.produtos = produtos;
-      this.categoriasUnicas = [...new Set(produtos.map(p => p.categoria))];
-      this.categoriasRestantes = this.categoriasUnicas.filter(c => c !== this.categoriaDestaque);
+
+      // Extrai categorias únicas em maiúsculas
+      const categoriasUnicas = [
+        ...new Set(
+          produtos.map(p =>
+            (p.categoria && p.categoria.trim())
+              ? p.categoria.trim().toUpperCase()
+              : 'OUTROS'
+          )
+        )
+      ];
+
+      // Filtra apenas as categorias permitidas
+      this.categoriasFiltradas = categoriasUnicas.filter(c =>
+        this.categoriasPermitidas.includes(c)
+      );
     });
   }
 
   getImagemCategoria(categoria: string): string {
+    if (!categoria) return 'assets/img/default-categoria.png';
+
     const imagens: { [key: string]: string } = {
-      'arrefecimento': 'assets/img/arrefecimento-banner.png',
-      'ar-condicionado': 'assets/img/ar-condicionado-banner.png',
-      'direção': 'assets/img/categorias/direcao.png',
-      'freios': 'assets/img/categorias/freios.png',
-      'suspensão': 'assets/img/categorias/suspensao.png',
-      'ignição': 'assets/img/categorias/ignicao.png',
-      'motor': 'assets/img/categorias/motor.png'
-      // adicione outras aqui
+      'ARREFECIMENTO': 'assets/img/arrefecimento-banner.jpg',
+      'RADIADORES': 'assets/img/radiador.webp',
+      'INTERCOOLER': 'assets/img/intercooler.webp',
+      'COLMEIA': 'assets/img/colmeia.webp',
+      'ADITIVOS': 'assets/img/aditivos.webp',
+      'VENTOINHA': 'assets/img/ventoinha.webp',
+      'EMBREAGEM VISCOSA': 'assets/img/embreagem.webp',
+      'RESFRIADOR DE ÓLEO': 'assets/img/resfriador.webp',
+      'VÁLVULA TERMOESTÁTICA': 'assets/img/valvula.webp',
+      'OUTROS': 'assets/img/outros.png'
     };
-    return imagens[categoria.toLowerCase()] || 'assets/img/default-categoria.png';
+
+    return imagens[categoria] || 'assets/img/default-categoria.png';
+  }
+
+  onImageError(event: Event) {
+    const imgElement = event.target as HTMLImageElement;
+    if (!imgElement.src.includes('default-categoria.png')) {
+      imgElement.src = 'assets/img/default-categoria.png';
+    }
   }
 }

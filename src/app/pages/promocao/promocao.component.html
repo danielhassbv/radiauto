@@ -60,9 +60,7 @@
 
                         <div class="card-body p-2">
                             <h6 class="card-title text-uppercase small fw-bold">{{ p.nome }}</h6>
-                            <p *ngIf="p.preco" class="text-muted text-decoration-line-through mb-1">De {{ p.preco + 2 |
-                                currency:'BRL' }}</p>
-                            <p class="fw-bold text-primary mb-1">{{ p.preco | currency:'BRL' }}</p>
+                            <p class="fw-bold text-primary mb-1" style="font-size: larger;" >{{ p.preco | currency:'BRL' }}</p>
                             <small class="text-muted">Ou em até 6x sem juros</small>
                         </div>
                     </div>

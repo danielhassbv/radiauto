@@ -1,18 +1,19 @@
 <div class="container py-4">
-
     <!-- CARD 3: Realtime ➜ Supabase -->
     <div class="card shadow-sm mt-4 border-0 card-radiauto">
         <div class="card-header">
-            <i class="fas fa-cloud-download-alt me-2"></i> EXPORTAR TABPRO (Realtime ➜ Supabase)
+            <i class="fas fa-cloud-download-alt me-2"></i> EXPORTAR TABPRO (Realtime ➜
+            Supabase)
         </div>
         <div class="card-body">
             <p class="text-muted">
-                Lê os dados do <strong>Realtime Database</strong> sincronizados com o banco da loja física e
-                importa para <strong>Supabase</strong> (apenas leitura).
+                Lê os dados do <strong>Realtime Database</strong> sincronizados com o
+                banco da loja física e importa para <strong>Supabase</strong> (apenas
+                leitura).
             </p>
             <button class="btn btn-outline-dark px-4 fw-bold" (click)="sincronizarRTDBParaSupabase()"
                 [disabled]="carregandoRTDBParaSupabase">
-                {{ carregandoRTDBParaSupabase ? 'Sincronizando...' : 'Importar agora' }}
+                {{ carregandoRTDBParaSupabase ? "Sincronizando..." : "Importar agora" }}
             </button>
         </div>
     </div>
@@ -20,27 +21,70 @@
     <!-- CARD: Realtime ➜ Firestore -->
     <div class="card shadow-sm mt-4 border-0 card-radiauto">
         <div class="card-header">
-            <i class="fas fa-fire me-2 text-danger"></i> EXPORTAR TABPRO (Realtime ➜ Firestore)
+            <i class="fas fa-fire me-2 text-danger"></i> EXPORTAR TABPRO (Realtime ➜
+            Firestore)
         </div>
         <div class="card-body">
             <p class="text-muted">
-                Importa os <strong>10 primeiros produtos</strong> da tabela <code>TABPRO</code> no
-                <strong>Realtime Database</strong> para a coleção <code>produtos</code> no <strong>Firestore</strong>.
+                Importa os <strong>10 primeiros produtos</strong> da tabela
+                <code>TABPRO</code> no <strong>Realtime Database</strong> para a coleção
+                <code>produtos</code> no <strong>Firestore</strong>.
             </p>
             <button class="btn btn-outline-danger px-4 fw-bold" (click)="sincronizarTABPROparaFirestore()"
                 [disabled]="carregandoTABPROParaFirestore">
-                {{ carregandoTABPROParaFirestore ? 'Importando...' : 'Importar agora' }}
+                {{ carregandoTABPROParaFirestore ? "Importando..." : "Importar agora" }}
             </button>
         </div>
     </div>
 
+    <!-- CARD: CSV + Realtime ➜ Firestore -->
+    <div class="card shadow-sm mt-4 border-0 card-radiauto">
+        <div class="card-header">
+            <i class="fas fa-database me-2 text-primary"></i> CRIAR TABELA PRODUTOS
+            (CSV + Realtime ➜ Firestore)
+        </div>
+        <div class="card-body">
+            <p class="text-muted">
+                Cria a coleção <code>produtos</code> no <strong>Firestore</strong> a
+                partir do <strong>CSV de referência</strong>, buscando os dados na
+                tabela <code>produtosFilial1</code> do
+                <strong>Realtime Database</strong>.
+            </p>
+            <button class="btn btn-outline-primary px-4 fw-bold" (click)="sincronizarProdutosFilialParaFirestore()"
+                [disabled]="carregandoProdutosFilialParaFirestore">
+                {{
+                carregandoProdutosFilialParaFirestore ? "Criando..." : "Criar Tabela"
+                }}
+            </button>
+        </div>
+    </div>
 
+    <!-- CARD: Firestore ➜ Supabase -->
+    <div class="card shadow-sm mt-4 border-0 card-radiauto">
+        <div class="card-header">
+            <i class="fas fa-cloud-upload-alt me-2 text-success"></i> EXPORTAR
+            PRODUTOS (Firestore ➜ Supabase)
+        </div>
+        <div class="card-body">
+            <p class="text-muted">
+                Exporta todos os produtos da coleção <code>produtos</code> no
+                <strong>Firestore</strong> para a tabela <code>produtos</code> no
+                <strong>Supabase</strong>.
+            </p>
+            <button class="btn btn-outline-success px-4 fw-bold" (click)="sincronizarProdutosFirestoreParaSupabase()"
+                [disabled]="carregandoFirestoreParaSupabase">
+                {{
+                carregandoFirestoreParaSupabase ? "Exportando..." : "Exportar agora"
+                }}
+            </button>
+        </div>
+    </div>
 
     <!-- TOAST -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 9999" aria-live="polite"
         aria-atomic="true">
         <div class="toast align-items-center text-white border-0" [ngClass]="sucesso ? 'bg-success' : 'bg-danger'"
-            role="alert" [class.show]="mostrarToast" [class.hide]="!mostrarToast" style="border-radius: 10px;">
+            role="alert" [class.show]="mostrarToast" [class.hide]="!mostrarToast" style="border-radius: 10px">
             <div class="d-flex">
                 <div class="toast-body">
                     {{ mensagem }}
