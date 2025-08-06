@@ -1,1 +1,71 @@
-<p>footer works!</p>
+<footer class="footer text-white pt-5">
+    <div class="container py-5">
+        <div class="row gy-4">
+
+            <!-- Atendimento -->
+            <div class="col-12 col-md-3">
+                <h6 class="fw-bold mb-3">ATENDIMENTO</h6>
+                <p><i class="fas fa-phone me-2"></i> (91) 3000-1234</p>
+                <p><i class="fab fa-whatsapp me-2 text-success"></i>
+                    <a href="https://wa.me/5591988881234" target="_blank"
+                        class="text-white text-decoration-none fw-bold">
+                        Chamar no WhatsApp
+                    </a>
+                </p>
+                <p><i class="fas fa-envelope me-2"></i> contato&#64;radiauto.com.br</p>
+                <p class="mt-2 small">Horários de Atendimento<br>Segunda a Sexta das 8h às 18h</p>
+            </div>
+
+            <!-- Institucional -->
+            <div class="col-12 col-md-3">
+                <h6 class="fw-bold mb-3">INSTITUCIONAL</h6>
+                <ul class="list-unstyled">
+                    <li><a routerLink="/quem-somos" class="text-white text-decoration-none">Quem Somos</a></li>
+                    <li><a routerLink="/unidades" class="text-white text-decoration-none">Nossas Unidades</a></li>
+                    <li><a routerLink="/produtos" class="text-white text-decoration-none">Nossos Produtos</a></li>
+                    <li><a routerLink="/politica-privacidade" class="text-white text-decoration-none">Política de
+                            Privacidade</a></li>
+                    <li><a routerLink="/trabalhe-conosco" class="text-white text-decoration-none">Trabalhe Conosco</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Ajuda -->
+            <div class="col-12 col-md-3">
+                <h6 class="fw-bold mb-3">AJUDA</h6>
+                <ul class="list-unstyled">
+                    <li><a routerLink="/central-atendimento" class="text-white text-decoration-none">Central de
+                            Atendimento</a></li>
+                    <li><a routerLink="/prazos" class="text-white text-decoration-none">Prazos e Entregas</a></li>
+                    <li><a routerLink="/trocas" class="text-white text-decoration-none">Trocas e Devoluções</a></li>
+                    <li><a routerLink="/como-comprar" class="text-white text-decoration-none">Como Comprar</a></li>
+                </ul>
+            </div>
+
+            <!-- Pagamento e Redes -->
+            <div class="col-12 col-md-3">
+                <h6 class="fw-bold mb-3">PAGAMENTO</h6>
+                <div class="d-flex flex-wrap gap-2 mb-3">
+                    <img src="assets/pagamento/visa.png" alt="Visa" height="28">
+                    <img src="assets/pagamento/mastercard.png" alt="Mastercard" height="28">
+                    <img src="assets/pagamento/elo.png" alt="Elo" height="28">
+                    <img src="assets/pagamento/paypal.png" alt="PayPal" height="28">
+                    <img src="assets/pagamento/boleto.png" alt="Boleto" height="28">
+                </div>
+
+                <h6 class="fw-bold mb-3">SIGA-NOS</h6>
+                <div class="d-flex gap-3">
+                    <a href="#" class="text-white fs-5"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="text-white fs-5"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-white fs-5"><i class="fab fa-youtube"></i></a>
+                    <a href="#" class="text-white fs-5"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Linha inferior -->
+    <div class="footer-bottom text-center text-white py-3 mt-4">
+        <p class="m-0">Todos os direitos reservados © Radiauto {{ ano }}</p>
+    </div>
+</footer>

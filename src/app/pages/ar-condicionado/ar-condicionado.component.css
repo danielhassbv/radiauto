@@ -1,0 +1,52 @@
+.bg-gray {
+  background-color: rgb(235, 235, 235);
+}
+
+.categoria-banner {
+  height: 400px;
+  object-fit: cover;
+}
+
+@media (max-width: 768px) {
+  .categoria-banner {
+    height: 180px;
+  }
+}
+
+/* Container circular da categoria */
+.categoria-circle {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 3px solid transparent;
+}
+
+/* Imagem dentro */
+.categoria-circle img {
+  max-height: 100px;
+  transition: transform 0.3s ease;
+}
+
+/* Hover com borda laranja */
+.categoria-circle:hover {
+  border-color: #ff6d00;
+  box-shadow: 0 6px 16px rgba(255,109,0,0.3);
+  transform: translateY(-5px);
+}
+
+/* Texto abaixo */
+.categoria-text {
+  margin-top: 8px;
+  font-weight: 600;
+  text-transform: capitalize;
+  transition: color 0.3s ease;
+}
+
+/* Texto muda para laranja no hover */
+a:hover .categoria-text {
+  color: #ff6d00;
+}

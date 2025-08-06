@@ -1,0 +1,28 @@
+.footer {
+  background-color: #041f3a; /* Azul escuro Radiauto */
+}
+
+.footer h6 {
+  font-size: 0.95rem;
+  text-transform: uppercase;
+}
+
+.footer a {
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.footer a:hover {
+  color: #ff6d00; /* Laranja Radiauto */
+}
+
+.footer-bottom {
+  background-color: #ff6d00; /* Laranja Radiauto */
+  font-size: 0.85rem;
+}
+
+.footer img {
+  background: #fff;
+  padding: 4px;
+  border-radius: 4px;
+}

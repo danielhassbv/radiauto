@@ -1,0 +1,17 @@
+<section class="container-fluid bg-light py-5 central-atendimento">
+  <div class="container text-center">
+    <h3 class="fw-bold mb-4">
+      Central de Atendimento
+      <div class="title-underline mx-auto mt-2"></div>
+    </h3>
+
+    <div class="row g-4 py-4 justify-content-center">
+      <div class="col-12 col-md-4" *ngFor="let filial of filiais">
+        <h6 class="fw-bold text-danger">{{ filial.nome }}</h6>
+        <p class="mb-1"><strong>Endereço:</strong> {{ filial.endereco }}</p>
+        <p class="mb-1"><strong>Fone:</strong> {{ filial.fone }}</p>
+        <p class="mb-0"><strong>WhatsApp:</strong> {{ filial.whatsapp }}</p>
+      </div>
+    </div>
+  </div>
+</section>

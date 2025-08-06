@@ -1,0 +1,27 @@
+.bg-red {
+  background-color: #e60000;
+}
+
+.bg-red i {
+  color: #fff;
+}
+
+.bg-red span {
+  font-size: 0.9rem;
+  line-height: 1.2;
+}
+
+@media (max-width: 768px) {
+  .captura-form {
+    text-align: center;
+  }
+
+  .bg-red {
+    justify-content: center !important;
+    text-align: center;
+  }
+
+  .bg-red span {
+    font-size: 1rem;
+  }
+}

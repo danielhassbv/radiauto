@@ -1,0 +1,32 @@
+<section class="container-fluid bg-light py-5">
+  <div class="container">
+    <form class="row g-3 align-items-center justify-content-center captura-form" (submit)="enviar(); $event.preventDefault()">
+
+      <!-- Caixa Vermelha -->
+      <div class="col-12 col-md-4 d-flex align-items-center justify-content-center bg-red text-white p-3 rounded">
+        <i class="fas fa-envelope fa-2x me-3"></i>
+        <span class="fw-bold text-uppercase small">
+          Receba nossas melhores<br>ofertas por e-mail
+        </span>
+      </div>
+
+      <!-- Nome -->
+      <div class="col-12 col-md-3">
+        <input type="text" class="form-control" placeholder="Nome" [(ngModel)]="nome" name="nome" required>
+      </div>
+
+      <!-- Email -->
+      <div class="col-12 col-md-3">
+        <input type="email" class="form-control" placeholder="E-mail" [(ngModel)]="email" name="email" required>
+      </div>
+
+      <!-- Botão -->
+      <div class="col-12 col-md-2 d-grid">
+        <button type="submit" class="btn btn-success fw-bold" [disabled]="carregando">
+          {{ carregando ? 'Enviando...' : 'Enviar' }}
+        </button>
+      </div>
+
+    </form>
+  </div>
+</section>

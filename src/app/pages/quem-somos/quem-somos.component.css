@@ -1,0 +1,33 @@
+.quem-somos {
+  background-color: #f8f9fa;
+}
+
+.quem-somos-img {
+  height: 350px;
+}
+
+.quem-somos-img img {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
+
+.overlay-text {
+  font-size: 1.4rem;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 10px 20px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+@media (max-width: 992px) {
+  .quem-somos-img {
+    height: 250px;
+  }
+
+  .overlay-text {
+    font-size: 1.1rem;
+    white-space: normal;
+  }
+}

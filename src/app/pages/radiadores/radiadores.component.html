@@ -1,0 +1,93 @@
+<!-- Título da seção -->
+<div class="container-fluid radiadores-title-container py-5">
+    <div class="container">
+        <h4 class="radiadores-title fw-bold m-0">Radiadores</h4>
+    </div>
+</div>
+
+<!-- Carrossel de Radiadores -->
+<div class="container py-5 position-relative p-5" *ngIf="gruposDeProdutos.length > 0">
+    <div #carouselRadiadoresRef id="carouselRadiadores" class="carousel slide" data-bs-ride="carousel"
+        data-bs-interval="4000">
+        <div class="carousel-inner">
+            <div *ngFor="let grupo of gruposDeProdutos; let i = index" class="carousel-item" [class.active]="i === 0">
+                <div class="d-flex justify-content-center flex-wrap gap-3">
+                    <div *ngFor="let p of grupo" class="card produto text-center border-0"
+                        [ngStyle]="{ flex: '1 1 ' + cardWidth + '%', 'max-width': '240px', 'min-width': '180px' }">
+
+                        <!-- Imagem com ações -->
+                        <div class="produto-img-wrapper position-relative overflow-hidden">
+                            <img [src]="p.imagem" class="card-img-top" alt="Produto" />
+
+                            <!-- Botão para mobile -->
+                            <button class="btn btn-light btn-sm position-absolute bottom-0 end-0 m-2 d-sm-none"
+                                (click)="p.mostrarAcoes = !p.mostrarAcoes">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </button>
+
+                            <!-- Hover e ações -->
+                            <div class="produto-hover" [class.mostrar]="p.mostrarAcoes === true">
+                                <button class="btn-espiar" data-bs-toggle="modal"
+                                    [attr.data-bs-target]="'#modalRadiador' + p.id">
+                                    Ver produto
+                                </button>
+                                <button class="btn-carrinho">ADICIONAR AO CARRINHO</button>
+                            </div>
+                        </div>
+
+                        <!-- Informações do Produto -->
+                        <div class="card-body p-2">
+                            <h6 class="card-title text-uppercase small fw-bold">{{ p.nome }}</h6>
+                            <p class="fw-bold text-primary mb-1">{{ p.preco | currency:'BRL' }}</p>
+                            <small class="text-muted">Ou em até 6x sem juros</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controles do Carrossel -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselRadiadores" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+            <span class="visually-hidden">Anterior</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselRadiadores" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+            <span class="visually-hidden">Próximo</span>
+        </button>
+    </div>
+</div>
+
+<!-- Modais dos Produtos -->
+<div *ngFor="let p of radiadores">
+    <div class="modal fade" [id]="'modalRadiador' + p.id" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-body d-flex flex-column flex-md-row gap-4 p-4">
+                    <!-- Imagem -->
+                    <div class="col-md-5 text-center">
+                        <img [src]="p.imagem" class="img-fluid rounded shadow" alt="Produto" />
+                    </div>
+
+                    <!-- Detalhes -->
+                    <div class="col-md-7 d-flex flex-column justify-content-between">
+                        <div>
+                            <h4 class="fw-bold text-uppercase">{{ p.nome }}</h4>
+                            <p *ngIf="p.preco" class="text-muted text-decoration-line-through mb-1">
+                                De {{ p.preco + 2 | currency:'BRL' }}
+                            </p>
+                            <h3 class="text-primary fw-bold mb-3">{{ p.preco | currency:'BRL' }}</h3>
+                            <p class="text-secondary small">{{ p.descricao }}</p>
+                        </div>
+
+                        <!-- Ações -->
+                        <div class="d-flex gap-3 mt-4 px-4">
+                            <button class="btn btn-success w-50">COMPRAR</button>
+                            <button class="btn btn-outline-primary w-50">VER MAIS DETALHES</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

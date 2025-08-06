@@ -1,0 +1,167 @@
+/* Título da seção Radiadores */
+.radiadores-title {
+    color: #041f3a;
+    font-size: 2rem;
+    padding-bottom: 5px;
+}
+
+/* Produto */
+.produto {
+    transition: all 0.3s ease-in-out;
+    cursor: default;
+}
+
+.produto-img-wrapper img {
+    width: 100%;
+    display: block;
+    height: auto;
+}
+
+.produto-img-wrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+.produto-img-wrapper img {
+    transition: transform 0.4s ease;
+    cursor: pointer;
+}
+
+/* Efeito de zoom ao passar o mouse */
+.produto-img-wrapper:hover img {
+    transform: scale(1.08);
+    cursor: pointer;
+}
+
+/* Hover */
+.produto-img-wrapper:hover .produto-hover {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Mobile via Angular */
+.produto-hover.mostrar {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Botão mobile só aparece em telas pequenas */
+@media (min-width: 576px) {
+    .btn-toggle-mobile {
+        display: none !important;
+    }
+}
+
+/* Alinhamento lado a lado */
+.produto-hover {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 0.5rem;
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+    z-index: 1;
+}
+
+.btn-espiar,
+.btn-carrinho {
+    min-height: 50px;
+    max-width: 130px;
+    text-align: center;
+}
+
+/* Botão ESPIAR */
+.btn-espiar {
+    background-color: #041f3a;
+    color: #fff;
+    padding: 6px 10px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+/* Botão CARRINHO */
+.btn-carrinho {
+    background-color: #ff6d00;
+    color: #fff;
+    border: none;
+    padding: 6px 10px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-carrinho:hover {
+    background-color: #e65c00;
+}
+
+/* Controles do carrossel */
+.carousel-control-prev,
+.carousel-control-next {
+    width: auto;
+    height: auto;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 0.3rem;
+    z-index: 1;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    width: 2rem;
+    height: 2rem;
+    background-size: 100% 70%;
+    background-color: #ff6d00;
+    border-radius: 20%;
+}
+
+.carousel-item {
+    transition: transform 0.6s ease-in-out;
+}
+
+/* Modal */
+.modal-body {
+    overflow-x: hidden;
+}
+
+.modal-content {
+    border: none !important;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    border: 2px solid #ff6d00;
+    max-width: 100%;
+    overflow-x: hidden !important;
+}
+
+.modal-body img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.modal-dialog-scrollable .modal-content {
+    max-height: 90vh;
+    overflow: hidden;
+}
+
+.modal-body h4 {
+    color: #111;
+    font-weight: bold;
+}
+
+.btn-outline-primary {
+    border-color: #ff6d00;
+    color: #ff6d00;
+}
+
+.btn-outline-primary:hover {
+    background-color: #ff6d00;
+    color: #fff;
+}

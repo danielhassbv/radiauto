@@ -1,0 +1,39 @@
+.central-atendimento {
+  background-color: #f8f9fa;
+}
+
+.central-atendimento h3 {
+  color: #111;
+  font-weight: bold;
+}
+
+.title-underline {
+  width: 60px;
+  height: 3px;
+  background-color: #e60000;
+  border-radius: 2px;
+}
+
+.central-atendimento h6 {
+  font-size: 0.95rem;
+}
+
+.central-atendimento p {
+  font-size: 0.9rem;
+  margin: 0;
+  color: #333;
+}
+
+@media (max-width: 768px) {
+  .central-atendimento h3 {
+    font-size: 1.3rem;
+  }
+
+  .central-atendimento h6 {
+    font-size: 1rem;
+  }
+
+  .central-atendimento p {
+    font-size: 0.85rem;
+  }
+}
