@@ -11,16 +11,25 @@ import { ListagemProdutosComponent } from './pages/listagem-produtos/listagem-pr
 export const routes: Routes = [
     { path: '', component: HomeComponent },
     { path: 'login', component: LoginComponent },
-    { path: 'register', component: RegisterComponent },
+    { path: 'registro', component: RegisterComponent },
     {
         path: 'painel-produtos',
         component: PainelProdutosComponent,
+    },
+    {
+        path: 'painel-cliente',
+        loadComponent: () => import('./pages/painel-cliente/painel-cliente.component').then(m => m.PainelClienteComponent),
+        data: { role: 'cliente' }
     },
     {
         path: 'cadastro-produto',
         component: CadastroProdutoComponent,
         outlet: 'modal'
 
+    },
+    {
+        path: 'registrar-admin',
+        loadComponent: () => import('./pages/register-admin/register-admin.component').then(m => m.RegisterAdminComponent)
     },
     {
         path: 'listagem-produtos',

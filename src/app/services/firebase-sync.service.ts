@@ -18,107 +18,136 @@ interface ProdutoFirebase {
 export class FirebaseSyncService {
 
     constructor(private http: HttpClient) { }
+async sincronizarProdutosFilialParaSupabase() {
+    const supabaseUrl = 'https://vflhnhwdwmlaebrfibeq.supabase.co/rest/v1/produtos';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZmbGhuaHdkd21sYWVicmZpYmVxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAyMDExMzgsImV4cCI6MjA2NTc3NzEzOH0.4_Ot8EA7TMXdyg6Y7Y1wBsOejQFZAizT8F0ffOOy5BM'; // ⚡ troque pela chave anon correta do Supabase
 
-    async sincronizarProdutosFilialParaSupabase() {
-        const supabaseUrl = 'https://vflhnhwdwmlaebrfibeq.supabase.co/rest/v1/produtos';
-        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZmbGhuaHdkd21sYWVicmZpYmVxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAyMDExMzgsImV4cCI6MjA2NTc3NzEzOH0.4_Ot8EA7TMXdyg6Y7Y1wBsOejQFZAizT8F0ffOOy5BM'; // ⚡ troque pela chave anon correta do Supabase
+    // helpers iguais ao seu padrão (removendo zeros à esquerda e UPPER)
+    const norm = (v: any) => (v ?? '').toString().trim().replace(/^0+/, '').toUpperCase();
 
-        try {
-            // 1. Ler CSV
-            const csvText = await lastValueFrom(
-                this.http.get('assets/produtos.csv', { responseType: 'text' })
-            );
-            const separador = csvText.includes(';') ? ';' : ',';
-            const linhas = csvText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+    try {
+        // 1. Ler CSV
+        const csvText = await lastValueFrom(
+            this.http.get('assets/produtos.csv', { responseType: 'text' })
+        );
+        const separador = csvText.includes(';') ? ';' : ',';
+        const linhas = csvText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
 
-            if (linhas.length < 2) {
-                alert('⚠️ CSV vazio ou inválido.');
-                return;
-            }
-
-            const cabecalho = linhas[0].split(separador).map(c => c.trim().toLowerCase());
-            const produtosCSV = linhas.slice(1).map(linha => {
-                const valores = linha.split(separador).map(v => v.trim());
-                const obj: any = {};
-                cabecalho.forEach((col, i) => {
-                    obj[col] = valores[i] ?? '';
-                });
-                return obj;
-            });
-
-            const codigos = produtosCSV
-                .map(p => p['código']?.toString().trim().replace(/^0+/, '').toUpperCase())
-                .filter(c => !!c);
-
-            console.log(`📌 CSV: ${codigos.length} códigos lidos`);
-
-            // 2. Buscar dados no Firebase RTDB
-            const rtdbUrl = 'https://radiauto-project-default-rtdb.firebaseio.com/produtosFilial1.json';
-            const dadosRTDB: any = await lastValueFrom(this.http.get(rtdbUrl));
-
-            const todosProdutos: ProdutoFirebase[] = dadosRTDB ? Object.values(dadosRTDB) : [];
-            console.log(`📦 Firebase retornou: ${todosProdutos.length} produtos`);
-
-            // 3. Montar lista completa para envio
-            const produtosMap = new Map();
-
-            for (const csvProd of produtosCSV) {
-                const codigoCSV = csvProd['código']?.toString().trim().replace(/^0+/, '').toUpperCase();
-                const nomeCSV = csvProd['produto']?.toString().trim();
-
-                let produto = todosProdutos.find((p: ProdutoFirebase) =>
-                    p.CODPRO?.toString().trim().replace(/^0+/, '').toUpperCase() === codigoCSV
-                );
-
-                // fallback pelo nome
-                if (!produto && nomeCSV) {
-                    produto = todosProdutos.find((p: ProdutoFirebase) =>
-                        (p.DESCPRO?.toString().trim().toUpperCase() || '') === nomeCSV.toUpperCase()
-                    );
-                }
-
-                // monta registro mesmo sem match
-                const id = codigoCSV || nomeCSV || `sem-id-${Math.random().toString(36).slice(2, 9)}`;
-
-                produtosMap.set(id, {
-                    id: id,
-                    nome: produto?.DESCPRO?.trim() || nomeCSV || 'Sem nome',
-                    preco: produto?.PRVAPRO
-                        ? parseFloat(produto.PRVAPRO.toString().replace(',', '.'))
-                        : 0,
-                    quantidade: produto?.QTDPRO
-                        ? parseInt(produto.QTDPRO.toString())
-                        : 0,
-                    descricao: produto?.DETALHE?.trim() || ''
-                });
-            }
-
-            const produtosParaSupabase = Array.from(produtosMap.values());
-            console.log(`✅ Total para envio ao Supabase: ${produtosParaSupabase.length}`);
-
-            // 4. Enviar em lotes para Supabase
-            const headers = new HttpHeaders({
-                'apikey': supabaseKey,
-                'Authorization': `Bearer ${supabaseKey}`,
-                'Content-Type': 'application/json',
-                'Prefer': 'resolution=merge-duplicates'
-            });
-
-            const chunkSize = 100;
-            for (let i = 0; i < produtosParaSupabase.length; i += chunkSize) {
-                const chunk = produtosParaSupabase.slice(i, i + chunkSize);
-                await lastValueFrom(this.http.post(supabaseUrl, chunk, { headers }));
-                console.log(`🚀 Lote ${i / chunkSize + 1} enviado com ${chunk.length} produtos`);
-            }
-
-            alert(`✅ Todos os ${produtosParaSupabase.length} produtos enviados/atualizados no Supabase.`);
-
-        } catch (error: any) {
-            console.error('❌ Erro ao enviar produtos para Supabase:', error);
-            if (error.error) console.error('Detalhes do erro:', error.error);
-            alert('❌ Erro ao exportar. Veja os logs no console.');
+        if (linhas.length < 2) {
+            alert('⚠️ CSV vazio ou inválido.');
+            return;
         }
+
+        const cabecalho = linhas[0].split(separador).map(c => c.trim().toLowerCase());
+        const produtosCSV = linhas.slice(1).map(linha => {
+            const valores = linha.split(separador).map(v => v.trim());
+            const obj: any = {};
+            cabecalho.forEach((col, i) => {
+                obj[col] = valores[i] ?? '';
+            });
+            return obj;
+        });
+
+        const codigos = produtosCSV
+            .map(p => norm(p['código']))
+            .filter(c => !!c);
+
+        console.log(`📌 CSV: ${codigos.length} códigos lidos`);
+
+        // 2. Buscar dados no Firebase RTDB (produtosFilial1 + TABPRO)
+        const urlFilial = 'https://radiauto-project-default-rtdb.firebaseio.com/produtosFilial1.json';
+        const urlTABPRO = 'https://radiauto-project-default-rtdb.firebaseio.com/TABPRO.json';
+
+        const [dadosFilial, dadosTABPRO]: any[] = await Promise.all([
+            lastValueFrom(this.http.get(urlFilial)),
+            lastValueFrom(this.http.get(urlTABPRO))
+        ]);
+
+        const listaFilial: ProdutoFirebase[] = dadosFilial ? Object.values(dadosFilial) : [];
+        const listaTABPRO: any[] = dadosTABPRO ? Object.values(dadosTABPRO) : [];
+
+        console.log(`📦 Firebase retornou: produtosFilial1=${listaFilial.length} | TABPRO=${listaTABPRO.length}`);
+
+        // Índices por CODPRO normalizado
+        const idxFilial = new Map<string, any>();
+        for (const p of listaFilial) {
+            const cod = norm(p?.CODPRO);
+            if (cod) idxFilial.set(cod, p);
+        }
+
+        const idxTABPRO = new Map<string, any>();
+        for (const p of listaTABPRO) {
+            const cod = norm(p?.CODPRO);
+            if (cod) idxTABPRO.set(cod, p);
+        }
+
+        // 3. Montar lista completa para envio
+        const produtosMap = new Map();
+
+        for (const csvProd of produtosCSV) {
+            const codigoCSV = norm(csvProd['código']);
+            const nomeCSV = csvProd['produto']?.toString().trim();
+
+            const produtoFilial = idxFilial.get(codigoCSV);
+            const produtoTABPRO = idxTABPRO.get(codigoCSV);
+
+            // id segue seu padrão
+            const id = codigoCSV || nomeCSV || `sem-id-${Math.random().toString(36).slice(2, 9)}`;
+
+            // nome como antes (DESCPRO), podendo vir de TABPRO ou filial (TABPRO tem prioridade)
+            const nome = (produtoTABPRO?.DESCPRO?.toString().trim())
+                      || (produtoFilial?.DESCPRO?.toString().trim())
+                      || nomeCSV
+                      || 'Sem nome';
+
+            // descricao: pegar de TABPRO.DETALHE; se vazio, tenta filial.DETALHE; senão vazio
+            const descricao =
+                (produtoTABPRO?.DETALHE?.toString().trim())
+             || (produtoFilial?.DETALHE?.toString().trim())
+             || '';
+
+            produtosMap.set(id, {
+                id: id,
+                nome,
+                preco: produtoFilial?.PRVAPRO
+                    ? parseFloat(produtoFilial.PRVAPRO.toString().replace(',', '.'))
+                    : 0,
+                quantidade: produtoFilial?.QTDPRO
+                    ? parseInt(produtoFilial.QTDPRO.toString(), 10)
+                    : 0,
+                descricao // <-- agora vem da TABPRO (fallback: filial)
+            });
+        }
+
+        const produtosParaSupabase = Array.from(produtosMap.values());
+        console.log(`✅ Total para envio ao Supabase: ${produtosParaSupabase.length}`);
+
+        // 4. Enviar em lotes para Supabase
+        const headers = new HttpHeaders({
+            'apikey': supabaseKey,
+            'Authorization': `Bearer ${supabaseKey}`,
+            'Content-Type': 'application/json',
+            'Prefer': 'resolution=merge-duplicates'
+        });
+
+        const chunkSize = 100;
+        for (let i = 0; i < produtosParaSupabase.length; i += chunkSize) {
+            const chunk = produtosParaSupabase.slice(i, i + chunkSize);
+            await lastValueFrom(this.http.post(supabaseUrl, chunk, { headers }));
+            console.log(`🚀 Lote ${i / chunkSize + 1} enviado com ${chunk.length} produtos`);
+        }
+
+        alert(`✅ Todos os ${produtosParaSupabase.length} produtos enviados/atualizados no Supabase.`);
+
+    } catch (error: any) {
+        console.error('❌ Erro ao enviar produtos para Supabase:', error);
+        if (error.error) console.error('Detalhes do erro:', error.error);
+        alert('❌ Erro ao exportar. Veja os logs no console.');
     }
+}
+
+
+
     async sincronizarProdutosFilialParaFirestore() {
         try {
             // 1. Carregar CSV dos assets

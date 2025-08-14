@@ -1,8 +1,13 @@
+<div class="mb-3">
+  <label class="form-label">Código de Segurança</label>
+  <input [(ngModel)]="codigoSeguranca" name="codigoSeguranca" type="password" class="form-control" required />
+</div>
+
 <div class="container d-flex justify-content-center align-items-center min-vh-100">
   <div class="card p-4 shadow-lg" style="width: 100%; max-width: 420px;">
-    <h4 class="text-center mb-3">Criar Conta de Cliente</h4>
+    <h4 class="text-center mb-3 text-danger">Criar Administrador</h4>
 
-    <form (ngSubmit)="registrar()">
+    <form (ngSubmit)="registrarAdmin()">
       <div class="mb-3">
         <label class="form-label">Email</label>
         <input [(ngModel)]="email" name="email" type="email" class="form-control" required />
@@ -18,25 +23,14 @@
         <input [(ngModel)]="confirmarSenha" name="confirmarSenha" type="password" class="form-control" required />
       </div>
 
-      <button class="btn btn-success w-100" type="submit" [disabled]="carregando">
-        <span *ngIf="!carregando">Registrar</span>
+      <button class="btn btn-danger w-100" type="submit" [disabled]="carregando">
+        <span *ngIf="!carregando">Criar Admin</span>
         <span *ngIf="carregando">
-          <span class="spinner-border spinner-border-sm me-2"></span>Registrando...
+          <span class="spinner-border spinner-border-sm me-2"></span>Criando...
         </span>
       </button>
 
-      <div class="text-center my-3 text-muted">ou</div>
-
-      <button
-        class="btn btn-outline-danger w-100"
-        type="button"
-        (click)="registrarComGoogle()"
-        [disabled]="carregando"
-      >
-        <i class="fab fa-google me-2"></i> Registrar com Google
-      </button>
-
-      <a class="btn btn-outline-secondary mt-2 w-100" routerLink="/login">Já tenho uma conta</a>
+      <a class="btn btn-outline-secondary mt-3 w-100" routerLink="/login">Voltar ao login</a>
     </form>
 
     <div *ngIf="erro" class="alert alert-danger mt-3 text-center py-2">{{ erro }}</div>

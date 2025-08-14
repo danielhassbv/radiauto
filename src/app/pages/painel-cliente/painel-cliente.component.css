@@ -1,0 +1,43 @@
+.painel-cliente {
+  color: #fff;
+}
+
+.titulo {
+  font-weight: 700;
+  color: #ff6d00;
+}
+
+.card {
+  background-color: #041f3a;
+  border: none;
+  border-radius: 12px;
+  color: #fff;
+}
+
+.card h5 {
+  color: #ff6d00;
+}
+
+.btn-outline-light {
+  border: 1px solid #ff6d00;
+  color: #ff6d00;
+}
+
+.btn-outline-light:hover {
+  background-color: #ff6d00;
+  color: #fff;
+}
+
+.table-radiauto {
+  background-color: #ff6d00;
+  color: #fff;
+}
+
+.table {
+  color: #fff;
+}
+
+.table td,
+.table th {
+  border-color: #ff6d00;
+}

@@ -1,0 +1,64 @@
+<div class="painel-cliente container py-4">
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="titulo">Meu Painel</h2>
+    <button class="btn btn-outline-light btn-sm" (click)="logout()">Sair</button>
+  </div>
+
+  <!-- Dados do Cliente -->
+  <div class="card card-cliente shadow-sm mb-4">
+    <div class="card-body">
+      <h5 class="mb-3">👤 Informações do Cliente</h5>
+      <p><strong>Nome:</strong> {{ usuario?.nome || 'Não informado' }}</p>
+      <p><strong>Email:</strong> {{ usuario?.email }}</p>
+    </div>
+  </div>
+
+  <!-- Pedidos -->
+  <div class="card card-pedidos shadow-sm">
+    <div class="card-body">
+      <h5 class="mb-3">📦 Meus Pedidos</h5>
+
+      <div *ngIf="carregando" class="text-center py-4">
+        <div class="spinner-border text-light"></div>
+        <p class="mt-2">Carregando pedidos...</p>
+      </div>
+
+      <div *ngIf="!carregando && pedidos.length === 0" class="alert alert-warning text-center">
+        Você ainda não realizou nenhum pedido.
+      </div>
+
+      <div *ngIf="!carregando && pedidos.length > 0">
+        <div class="table-responsive">
+          <table class="table table-striped table-bordered align-middle">
+            <thead class="table-radiauto">
+              <tr>
+                <th>Código</th>
+                <th>Data</th>
+                <th>Status</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let pedido of pedidos">
+                <td>{{ pedido.id }}</td>
+                <td>{{ pedido.data?.toDate() | date:'dd/MM/yyyy' }}</td>
+                <td>
+                  <span class="badge"
+                        [ngClass]="{
+                          'bg-success': pedido.status === 'Concluído',
+                          'bg-warning': pedido.status === 'Em andamento',
+                          'bg-danger': pedido.status === 'Cancelado'
+                        }">
+                    {{ pedido.status }}
+                  </span>
+                </td>
+                <td>R$ {{ pedido.total | number:'1.2-2' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

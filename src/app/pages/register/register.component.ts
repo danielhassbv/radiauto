@@ -9,60 +9,56 @@ import { AuthService } from '../../services/auth.service';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
   email = '';
   senha = '';
   confirmarSenha = '';
+
+  carregando = false;
   erro = '';
   sucesso = '';
-  carregando = false;
 
-  constructor(private auth: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router) {}
 
-  registrar() {
+  async registrar() {
     this.erro = '';
     this.sucesso = '';
 
     if (this.senha !== this.confirmarSenha) {
-      this.erro = 'As senhas não coincidem.';
-      return;
-    }
-
-    if (this.senha.length < 6) {
-      this.erro = 'A senha deve ter pelo menos 6 caracteres.';
+      this.erro = 'As senhas não conferem!';
       return;
     }
 
     this.carregando = true;
-
-    this.auth.registrar(this.email, this.senha)
-      .then(() => {
-        this.sucesso = 'Conta criada com sucesso!';
-        this.router.navigate(['/painel-produtos']);
-      })
-      .catch(err => {
-        this.erro = 'Erro ao registrar: ' + (err.message || 'Tente novamente.');
-      })
-      .finally(() => this.carregando = false);
+    try {
+      await this.authService.registrar(this.email, this.senha, 'cliente');
+      this.sucesso = 'Conta criada com sucesso!';
+      setTimeout(() => {
+        this.router.navigate(['/login']);
+      }, 1500);
+    } catch (error: any) {
+      this.erro = error.message || 'Erro ao registrar';
+    } finally {
+      this.carregando = false;
+    }
   }
-  registrarComGoogle() {
-    this.carregando = true;
+
+  async registrarComGoogle() {
     this.erro = '';
     this.sucesso = '';
+    this.carregando = true;
 
-    this.auth.loginComGoogle()
-      .then(() => {
-        this.sucesso = 'Conta criada com Google!';
-        this.router.navigate(['/painel-produtos']);
-      })
-      .catch(() => {
-        this.erro = 'Erro ao registrar com Google.';
-      })
-      .finally(() => {
-        this.carregando = false;
-      });
+    try {
+      await this.authService.loginComGoogle();
+      this.sucesso = 'Conta criada com sucesso pelo Google!';
+      setTimeout(() => {
+        this.router.navigate(['/painel-cliente']);
+      }, 1500);
+    } catch (error: any) {
+      this.erro = error.message || 'Erro ao registrar com Google';
+    } finally {
+      this.carregando = false;
+    }
   }
-
 }

@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
-
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -31,7 +30,22 @@ export class HeaderComponent {
   }
 
   goToProfile() {
-    this.router.navigate(['/painel-produtos']);
+    const usuario = this.auth.getUsuario();
+
+    if (!usuario) {
+      this.router.navigate(['/login']);
+      return;
+    }
+
+    if (usuario.role === 'cliente') {
+      this.router.navigate(['/painel-cliente']);
+    } else if (usuario.role === 'admin') {
+      this.router.navigate(['/painel-produtos']);
+    } else {
+      // fallback de segurança
+      this.router.navigate(['/login']);
+    }
+
     this.dropdownLoginAberto = false;
   }
 
@@ -41,7 +55,7 @@ export class HeaderComponent {
   }
 
   goToRegister() {
-    this.router.navigate(['/register']);
+    this.router.navigate(['/registro']); // corrigido pra bater com a rota do cliente
     this.dropdownLoginAberto = false;
   }
 }
