@@ -146,8 +146,6 @@ async sincronizarProdutosFilialParaSupabase() {
     }
 }
 
-
-
     async sincronizarProdutosFilialParaFirestore() {
         try {
             // 1. Carregar CSV dos assets
@@ -289,4 +287,3 @@ async sincronizarProdutosFilialParaSupabase() {
         }
     }
 }
-
